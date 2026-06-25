@@ -46,6 +46,9 @@
     --radius-2xl: calc(var(--radius) * 1.8);
     --radius-3xl: calc(var(--radius) * 2.2);
     --radius-4xl: calc(var(--radius) * 2.6);
+
+    --color-green: #008c64;
+    --color-peach: #fae5be;
 }
 
 :root {
@@ -127,4 +130,21 @@
   html {
     @apply font-sans;
     }
+}
+
+* {
+  transition-duration: 0.25s;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  background-color: #f6fef9;
+}
+
+.padding {
+  padding-left: 14rem;
+  padding-right: 14rem;
 }
