@@ -3,7 +3,7 @@ import HeroSection from "./Hero"
 
 function Home() {
   return (
-    <div id="home">
+    <div id="home min-h-screen">
         <Header />
         <HeroSection />
     </div>
