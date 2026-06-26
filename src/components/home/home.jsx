@@ -1,9 +1,11 @@
-import Header from "@/components/home/header"
+import Header from "./Header"
+import HeroSection from "./Hero"
 
 function Home() {
   return (
-    <div id="header">
+    <div id="home">
         <Header />
+        <HeroSection />
     </div>
   )
 }

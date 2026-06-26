@@ -1,5 +1,5 @@
 import { MapPin } from "lucide-react"
-import Navbar from "@/components/home/navbar"
+import Navbar from "@/components/home/Navbar"
 import { Button } from "../ui/button";
 
 function Header() {
@@ -15,7 +15,7 @@ function Header() {
                 </div>
             </div>
             <Navbar />
-            <Button className="bg-green rounded-md text-[0.75rem] hover:cursor-pointer">Sign In</Button>
+            <Button className="bg-green rounded-md text-[0.75rem]">Sign In</Button>
         </header>
     )
 }

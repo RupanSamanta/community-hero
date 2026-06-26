@@ -3,7 +3,7 @@ import { LayoutDashboard, ListChecks, Trophy } from "lucide-react"
 function Navbar() {
   const iconSize = 'size-4';
   return (
-    <nav className="flex justify-between items-center gap-8 *:flex *:items-center *:gap-2 *:text-sm *:text-gray-600 *:font-medium *:hover:bg-peach *:rounded-md *:p-2 *:cursor-pointer">
+    <nav className="flex justify-between items-center gap-8 *:flex *:items-center *:gap-2 *:text-sm *:text-gray-600 *:font-medium *:rounded-md *:p-2 *:cursor-pointer *:hover:bg-peach *:hover:text-black">
       <div>
         <ListChecks className={iconSize} />
         <span>Issues</span>
