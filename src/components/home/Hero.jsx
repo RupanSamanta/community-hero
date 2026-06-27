@@ -32,7 +32,7 @@ function HeroSection() {
         }
     ];
     return (
-        <div id="hero-section" className="pt-30 flex flex-wrap gap-11">
+        <div className="pt-30 flex flex-wrap gap-11">
             <div className="max-w-xl">
                 <Badge variant="secondary" className="bg-orange-200 text-red-950">
                     <Stars />
