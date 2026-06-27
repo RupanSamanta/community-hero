@@ -29,7 +29,7 @@ function SignUp() {
                     </div>
                 </CardContent>
                 <CardFooter>
-                    <Button size="lg" className="w-full p-5 bg-green">Create Account</Button>
+                    <Button size="lg" className="w-full p-5 bg-emerald-600">Create Account</Button>
                 </CardFooter>
             </Card>
         </TabsContent>

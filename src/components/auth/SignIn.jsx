@@ -25,7 +25,7 @@ function SignIn() {
                     </div>
                 </CardContent>
                 <CardFooter>
-                <Button size="lg" className="w-full p-5 bg-green">Sign In</Button>
+                <Button size="lg" className="w-full p-5 bg-emerald-600">Sign In</Button>
                 </CardFooter>
             </Card>
         </TabsContent>

@@ -8,7 +8,7 @@ function Header() {
         <header className="w-full absolute top-0 left-1/2 -translate-x-1/2 z-10 py-4 flex justify-between items-center border-b border-b-gray-300 backdrop-blur-sm">
             <Link to="/home">
                 <div className="home-icon flex items-center gap-2 cursor-pointer">
-                    <div className="size-9 rounded-md bg-green grid place-items-center">
+                    <div className="size-9 rounded-md bg-emerald-600 grid place-items-center">
                         <MapPin className="size-5 text-gray-50" />
                     </div>
                     <div className="flex flex-col">
@@ -19,7 +19,7 @@ function Header() {
             </Link>
             <Navbar />
             <Link to="/auth">
-                <Button className="bg-green rounded-md text-[0.75rem]">Sign In</Button>
+                <Button className="bg-emerald-600 rounded-md text-[0.75rem]">Sign In</Button>
             </Link>
         </header>
     )
