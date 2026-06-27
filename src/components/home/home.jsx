@@ -1,12 +1,12 @@
-import Header from "./Header"
+import Header from "../layout/Header"
 import HeroSection from "./Hero"
 
 function Home() {
   return (
-    <div id="home min-h-screen">
-        <Header />
-        <HeroSection />
-    </div>
+    <>
+      <Header />
+      <HeroSection />
+    </>
   )
 }
 

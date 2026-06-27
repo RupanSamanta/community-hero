@@ -31,8 +31,8 @@ function HeroSection() {
         }
     ];
     return (
-        <section id="hero-section" className="padding mt-14 flex flex-wrap gap-11">
-            <div className="max-w-md">
+        <div id="hero-section" className="pt-40 flex flex-wrap gap-11">
+            <div className="max-w-xl">
                 <Badge variant="secondary" className="bg-peach text-red-950">
                     <Stars />
                     AI-powered civic reporting
@@ -49,13 +49,13 @@ function HeroSection() {
                     <Button size="lg" variant="outline">Browse issues</Button>
                 </div>
             </div>
-            <div className="grid grid-cols-2 gap-4 flex-1">
+            <div className="grid grid-cols-2 grid-rows-2 gap-4 flex-1">
                 {FEATURE_CARDS.map((card) => (
                     <CardDetails key={card.id} icon={card.icon} title={card.title} desc={card.description}
                     />
                 ))}
             </div>
-        </section>
+        </div>
     )
 }
 

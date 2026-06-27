@@ -126,7 +126,7 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground m-0;
   }
 
   html {
@@ -136,13 +136,14 @@
 
 * {
   transition-duration: 0.25s;
+  box-sizing: border-box;
 }
 
 #root {
   width: 1126px;
   max-width: 100%;
   margin: auto;
-  padding: 0 4rem;
+  position: relative;
 }
 
 html {
