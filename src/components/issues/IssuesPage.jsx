@@ -59,7 +59,7 @@ export default function IssuesPage() {
     return (
         <>
             <Header />
-            <div className="pt-30">
+            <div className="pt-30 pb-12">
                 <div>
                     <div className="text text-3xl font-bold">Issues</div>
                     <div className="text-gray-600">

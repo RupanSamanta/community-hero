@@ -5,7 +5,7 @@ import Navbar from "@/components/layout/Navbar"
 
 function Header() {
     return (
-        <header className="w-full sticky top-0 z-10 py-4 mb-[-70.8px] flex justify-between items-center border-b border-b-gray-300 backdrop-blur-sm">
+        <header className="w-full sticky top-0 z-10 py-4 mb-[-70.8px] flex justify-between items-center border-b border-b-gray-300 backdrop-blur-3xl">
             <Link to="/home">
                 <div className="home-icon flex items-center gap-2 cursor-pointer">
                     <div className="size-9 rounded-md bg-emerald-600 grid place-items-center">
