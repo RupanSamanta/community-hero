@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { SearchIcon } from "lucide-react";
 import Header from "../layout/Header"
 import { Field, FieldGroup, FieldSet } from "../ui/field"
@@ -6,8 +7,12 @@ import { AppSelect } from "./AppSelect"
 import { CATEGORY_CONFIG, STATUS_CONFIG } from "@/lib/constants";
 import IssueCard from "./IssueCard";
 
-export default function Issues() {
-    const mockIssues = [
+export default function IssuesPage() {
+    const [selectedCategory, setSelectedCategory] = useState("All")
+    const [selectedStatus, setSelectedStatus] = useState("All")
+    const [searchQuery, setSearchQuery] = useState("")
+
+    const issues = [
         {
             id: 1,
             title: "Large pothole on Main Street",
@@ -37,18 +42,20 @@ export default function Issues() {
             severity: "medium severity",
             location: "Central Market",
             upvotes: 3
-        },
-        {
-            id: 4,
-            title: "Overflowing garbage bin",
-            description: "Bin near market hasn't been collected in days.",
-            category: "Waste",
-            status: "Resolved",
-            severity: "medium severity",
-            location: "Central Market",
-            upvotes: 3
         }
-    ]
+    ];
+
+    const filteredIssues = issues.filter((issue) => {
+        const matchesCategory = selectedCategory.includes("All") || issue.category === selectedCategory
+        const matchesStatus = selectedStatus.includes("All") || issue.status === selectedStatus
+
+        const matchesSearch = issue.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            issue.description.toLowerCase().includes(searchQuery.toLowerCase())
+
+        return matchesCategory && matchesStatus && matchesSearch
+    });
+
+
     return (
         <>
             <Header />
@@ -56,7 +63,7 @@ export default function Issues() {
                 <div>
                     <div className="text text-3xl font-bold">Issues</div>
                     <div className="text-gray-600">
-                        <span>3</span> of <span>3</span> reports
+                        <span>{filteredIssues.length}</span> of <span>{issues.length}</span> reports
                     </div>
                 </div>
                 <FieldSet>
@@ -66,6 +73,8 @@ export default function Issues() {
                                 <InputGroupInput
                                     placeholder="Search issues..."
                                     className="bg-white focus-visible:ring-0! focus-visible:ring-offset-0! focus-visible:outline-none!"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
                                 />
                                 <InputGroupAddon align="inline-start" className="p-0">
                                     <SearchIcon />
@@ -77,7 +86,7 @@ export default function Issues() {
                                 label="Categories"
                                 placeholder="Filter by Category"
                                 options={Object.keys(CATEGORY_CONFIG)}
-                                onValueChange={(val) => console.log("Category selected:", val)}
+                                onValueChange={(val) => setSelectedCategory(val)}
                             />
                         </Field>
                         <Field>
@@ -85,16 +94,19 @@ export default function Issues() {
                                 label="Statuses"
                                 placeholder="Filter by Status"
                                 options={Object.keys(STATUS_CONFIG)}
-                                onValueChange={(val) => console.log("Status selected:", val)}
+                                onValueChange={(val) => setSelectedStatus(val)}
                             />
                         </Field>
                     </FieldGroup>
                     <FieldGroup className="grid grid-cols-3 items-stretch *:*:h-full mt-6">
-                        {mockIssues.map((issue, key) => (
+                        {filteredIssues.map((issue, key) => (
                             <Field key={key}>
                                 <IssueCard key={issue.id} issue={issue} />
                             </Field>
                         ))}
+                        {filteredIssues.length === 0 && (
+                            <div className="text-center text-slate-500 py-10">No issues found matching those filters.</div>
+                        )}
                     </FieldGroup>
                 </FieldSet>
             </div>
