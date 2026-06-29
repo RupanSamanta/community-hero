@@ -3,9 +3,9 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLe
 import { PieChart, Pie, ResponsiveContainer } from "recharts"
 
 const categoryData = [
-    { category: "Pothole", value: 1, fill: "var(--color-pothole)" },
-    { category: "Streetlight", value: 1, fill: "var(--color-streetlight)" },
-    { category: "Waste", value: 1, fill: "var(--color-waste)" },
+    { category: "pothole", value: 1, fill: "var(--color-pothole)" },
+    { category: "streetlight", value: 1, fill: "var(--color-streetlight)" },
+    { category: "waste", value: 1, fill: "var(--color-waste)" },
 ]
 
 const categoryChartConfig = {
@@ -17,7 +17,7 @@ const categoryChartConfig = {
 
 export function CategoryChart() {
     return (
-        <Card className="shadow-sm border-slate-200/80 rounded-2xl bg-white flex flex-col">
+        <Card className="shadow-sm border-slate-200/80 rounded-2xl bg-white flex flex-col p-0 px-2">
             <CardHeader className="p-5 pb-0">
                 <CardTitle className="text-base font-bold text-slate-900">Issues by category</CardTitle>
             </CardHeader>

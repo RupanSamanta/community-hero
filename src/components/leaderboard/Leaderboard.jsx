@@ -20,6 +20,7 @@ export default function Leaderboard() {
 
     return (
         <>
+            <title>Leaderboard - Community Hero</title>
             <Header />
             <div className="pt-30 pb-12 max-w-7xl mx-auto space-y-8">
                 <div>

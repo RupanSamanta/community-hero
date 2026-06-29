@@ -11,7 +11,7 @@ export function KpiSection() {
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {kpiData.map((kpi, idx) => (
-                <Card key={idx} className="shadow-sm border-slate-200/80 rounded-2xl bg-white">
+                <Card key={idx} className="shadow-sm border-slate-200/80 rounded-2xl bg-white p-0 px-2">
                     <CardHeader className="p-4 pb-2 space-y-0">
                         <CardTitle className="text-sm font-normal text-slate-500">
                             {kpi.title}

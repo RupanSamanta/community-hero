@@ -6,6 +6,7 @@ import { StatusChart } from "./StatusChart"
 function Dashboard() {
     return (
         <>
+            <title>Dashboard - Community Hero</title>
             <Header />
             <div className="pt-30 max-w-7xl mx-auto space-y-8 pb-12">
                 <div>

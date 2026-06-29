@@ -1,49 +1,17 @@
 import { useState } from "react";
-import { SearchIcon } from "lucide-react";
 import Header from "../layout/Header"
+import { SearchIcon } from "lucide-react";
 import { Field, FieldGroup, FieldSet } from "../ui/field"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group";
 import { AppSelect } from "./AppSelect"
-import { CATEGORY_CONFIG, STATUS_CONFIG } from "@/lib/constants";
 import IssueCard from "./IssueCard";
+import { CATEGORY_CONFIG, STATUS_CONFIG } from "@/lib/constants";
+import { issues } from "@/data/issues";
 
 export default function IssuesPage() {
-    const [selectedCategory, setSelectedCategory] = useState("All")
-    const [selectedStatus, setSelectedStatus] = useState("All")
-    const [searchQuery, setSearchQuery] = useState("")
-
-    const issues = [
-        {
-            id: 1,
-            title: "Large pothole on Main Street",
-            description: "Deep pothole near the bus stop, dangerous for two-wheelers.",
-            category: "Pothole",
-            status: "Verified",
-            severity: "high severity",
-            location: "Main St & 4th Ave",
-            upvotes: 3
-        },
-        {
-            id: 2,
-            title: "Streetlight out near park",
-            description: "The lamp by the playground has been dark for a week.",
-            category: "Streetlight",
-            status: "In Progress",
-            severity: "medium severity",
-            location: "Greenfield Park",
-            upvotes: 4
-        },
-        {
-            id: 3,
-            title: "Overflowing garbage bin",
-            description: "Bin near market hasn't been collected in days.",
-            category: "Waste",
-            status: "Resolved",
-            severity: "medium severity",
-            location: "Central Market",
-            upvotes: 3
-        }
-    ];
+    const [selectedCategory, setSelectedCategory] = useState("All");
+    const [selectedStatus, setSelectedStatus] = useState("All");
+    const [searchQuery, setSearchQuery] = useState("");
 
     const filteredIssues = issues.filter((issue) => {
         const matchesCategory = selectedCategory.includes("All") || issue.category === selectedCategory
@@ -58,6 +26,7 @@ export default function IssuesPage() {
 
     return (
         <>
+            <title>Issues - Community Hero</title>
             <Header />
             <div className="pt-30 pb-12">
                 <div>

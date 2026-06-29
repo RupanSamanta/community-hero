@@ -61,6 +61,7 @@ export default function ReportIssue() {
 
     return (
         <>
+            <title>Report Issue - Community Hero</title>
             <Header />
             <div className="pt-30 max-w-2xl mx-auto space-y-6 px-6 pb-12">
 
@@ -97,15 +98,26 @@ export default function ReportIssue() {
                         />
                     </div>
 
-                    <PhotoUpload />
 
-                    <LocationInput
-                        value={location}
-                        onChange={(e) => setLocation(e.target.value)}
-                        onGpsClick={handleGpsFetch}
-                    />
+                    <div className="space-y-2">
+                        <Label className="text-sm font-medium text-slate-900">Photo</Label>
+                        <PhotoUpload />
+                    </div>
+
+
+                    <div className="space-y-2">
+                        <Label htmlFor="location" className="text-sm font-medium text-slate-900">
+                            Location
+                        </Label>
+                        <LocationInput
+                            value={location}
+                            onChange={(e) => setLocation(e.target.value)}
+                            onGpsClick={handleGpsFetch}
+                        />
+                    </div>
 
                     <Button
+                        size="lg"
                         type="submit"
                         className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl flex items-center justify-center gap-2 transition-colors mt-2 py-5"
                     >
