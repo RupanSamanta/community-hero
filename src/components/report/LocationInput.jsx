@@ -2,7 +2,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { MapPin } from "lucide-react"
 
-export function LocationInput({ value, onChange, onGpsClick }) {
+export default function LocationInput({ value, onChange, onGpsClick }) {
     return (
         <div className="flex gap-3">
             <Input

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Header from "../layout/Header"
 import { SearchIcon } from "lucide-react";
 import { Field, FieldGroup, FieldSet } from "../ui/field"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group";
@@ -27,7 +26,7 @@ export default function IssuesPage() {
     return (
         <>
             <title>Issues - Community Hero</title>
-            <Header />
+            
             <div className="pt-30 pb-12">
                 <div>
                     <div className="text text-3xl font-bold">Issues</div>

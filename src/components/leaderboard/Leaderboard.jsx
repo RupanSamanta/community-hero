@@ -1,4 +1,3 @@
-import Header from "../layout/Header"
 import { LeaderboardItem } from "./LeaderboardItem"
 
 const rawHeroesData = [
@@ -21,7 +20,7 @@ export default function Leaderboard() {
     return (
         <>
             <title>Leaderboard - Community Hero</title>
-            <Header />
+
             <div className="pt-30 pb-12 max-w-7xl mx-auto space-y-8">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight text-slate-900">Community heroes</h1>

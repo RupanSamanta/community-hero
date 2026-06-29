@@ -1,19 +1,20 @@
 import { useState } from "react"
-import Header from "../layout/Header"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Sparkles } from "lucide-react"
-
-import { PhotoUpload } from "./PhotoUpload"
-import { LocationInput } from "./LocationInput"
 import { toast } from "sonner"
+
+import PhotoUpload from "./PhotoUpload"
+import LocationInput from "./LocationInput"
 
 export default function ReportIssue() {
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
-    const [location, setLocation] = useState("")
+    const [location, setLocation] = useState("");
+
+    const [photo, setPhoto] = useState(null);
 
     const handleGpsFetch = () => {
         if (!navigator.geolocation) {
@@ -62,7 +63,7 @@ export default function ReportIssue() {
     return (
         <>
             <title>Report Issue - Community Hero</title>
-            <Header />
+            
             <div className="pt-30 max-w-2xl mx-auto space-y-6 px-6 pb-12">
 
                 <div>
@@ -101,7 +102,7 @@ export default function ReportIssue() {
 
                     <div className="space-y-2">
                         <Label className="text-sm font-medium text-slate-900">Photo</Label>
-                        <PhotoUpload />
+                        <PhotoUpload photo={photo} setPhoto={setPhoto} />
                     </div>
 
 
@@ -117,6 +118,14 @@ export default function ReportIssue() {
                     </div>
 
                     <Button
+                        onClick={() =>
+                            toast("Event has been created", {
+                              description: "Sunday, December 03, 2023 at 9:00 AM",
+                              action: {
+                                label: "Undo",
+                                onClick: () => console.log("Undo"),
+                              },
+                            position: "bottom-right" })}
                         size="lg"
                         type="submit"
                         className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl flex items-center justify-center gap-2 transition-colors mt-2 py-5"
