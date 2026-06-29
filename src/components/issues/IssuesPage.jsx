@@ -105,7 +105,9 @@ export default function IssuesPage() {
                             </Field>
                         ))}
                         {filteredIssues.length === 0 && (
-                            <div className="text-center text-slate-500 py-10">No issues found matching those filters.</div>
+                            <div className="col-span-3 h-40 flex justify-center items-center text-slate-500 rounded-lg border-dashed border border-gray-300">
+                                No issues found matching those filters.
+                            </div>
                         )}
                     </FieldGroup>
                 </FieldSet>
