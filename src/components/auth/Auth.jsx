@@ -9,7 +9,7 @@ export default function AuthCard() {
             
             <div className="flex justify-center items-center min-h-screen">
                 <Tabs defaultValue="signin" className="w-100">
-                    <TabsList className="grid w-full grid-cols-2">
+                    <TabsList className="bg-gray-200/90 grid w-full grid-cols-2">
                         <TabsTrigger value="signin">Sign In</TabsTrigger>
                         <TabsTrigger value="signup">Sign Up</TabsTrigger>
                     </TabsList>

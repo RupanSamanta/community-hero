@@ -23,8 +23,8 @@ function SignUp() {
                         Enter your details below to get started today.
                     </CardDescription>
                 </CardHeader>
-                <CardContent>
-                    <form className="space-y-4" onSubmit={onSubmit}>
+                <form onSubmit={onSubmit}>
+                    <CardContent className="space-y-4 pb-4">
                         <div className="space-y-1">
                             <Label htmlFor="signup-name">Full Name</Label>
                             <Input id="signup-name" name="name" type="text" placeholder="John Doe" required />
@@ -37,11 +37,11 @@ function SignUp() {
                             <Label htmlFor="signup-password">Password</Label>
                             <Input id="signup-password" name="password" type="password" required />
                         </div>
-                    </form>
-                </CardContent>
-                <CardFooter>
-                    <Button size="lg" type="submit" className="w-full p-5 bg-emerald-600">Create Account</Button>
-                </CardFooter>
+                    </CardContent>
+                    <CardFooter>
+                        <Button size="lg" type="submit" className="w-full p-5 bg-emerald-600">Create Account</Button>
+                    </CardFooter>
+                </form>
             </Card>
         </TabsContent>
     )
