@@ -1,24 +1,20 @@
 import { Upload, X } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useMemo, useRef } from "react"
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 
 export default function PhotoUpload({ photo, setPhoto }) {
 
     const fileInputRef = useRef(null);
-    const [previewUrl, setPreviewUrl] = useState(null);
+    const previewUrl = useMemo(() => {
+        if (!photo) return null;
+        return URL.createObjectURL(photo);
+    }, [photo]);
 
     useEffect(() => {
-        if (!photo) {
-            setPreviewUrl(null);
-            return;
-        }
-
-        const url = URL.createObjectURL(photo);
-        setPreviewUrl(url);
-
-        return () => URL.revokeObjectURL(url);
-    }, [photo]);
+        if (!previewUrl) return;
+        return () => URL.revokeObjectURL(previewUrl);
+    }, [previewUrl]);
 
     const handleBoxClick = () => {
         fileInputRef.current?.click();
@@ -39,10 +35,10 @@ export default function PhotoUpload({ photo, setPhoto }) {
     }
 
     const handleRemovePhoto = (e) => {
-        e.stopPropagation() // Prevents triggering the box click handler
-        setPhoto(null)
+        e.stopPropagation();
+        setPhoto(null);
         if (fileInputRef.current) {
-            fileInputRef.current.value = "" // Clears the element memory cache
+            fileInputRef.current.value = "";
         }
     }
 

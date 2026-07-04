@@ -34,19 +34,6 @@ export default function ReportIssue() {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        if (!title.trim()) {
-            toast.error("Validation Error", { description: "Please enter a title for the report." })
-            return
-        }
-        if (description.trim().length < 5) {
-            toast.error("Validation Error", { description: "Please provide a more descriptive summary." })
-            return
-        }
-        if (!location.trim()) {
-            toast.error("Validation Error", { description: "Location details or GPS tracking is required." })
-            return
-        }
-
         // Execution path on valid payloads
         console.log({ title, description, location })
 
@@ -84,7 +71,10 @@ export default function ReportIssue() {
                             placeholder="e.g. Pothole on Main St"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            className="h-11 rounded-xl bg-white border-slate-200 focus-visible:ring-emerald-600"
+                            required
+                            pattern=".*\S.*"
+                            title="Please enter a title for the report."
+                            className="h-11 rounded-xl bg-white border-slate-200 focus-visible:ring-1 focus-visible:ring-emerald-600"
                         />
                     </div>
 
@@ -95,16 +85,16 @@ export default function ReportIssue() {
                             placeholder="Describe the issue, its severity and any context."
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            className="min-h-27.5 rounded-xl bg-white border-slate-200 resize-y focus-visible:ring-emerald-600"
+                            required
+                            minLength={5}
+                            className="min-h-27.5 rounded-xl bg-white border-slate-200 resize-y focus-visible:ring-1 focus-visible:ring-emerald-600"
                         />
                     </div>
-
 
                     <div className="space-y-2">
                         <Label className="text-sm font-medium text-slate-900">Photo</Label>
                         <PhotoUpload photo={photo} setPhoto={setPhoto} />
                     </div>
-
 
                     <div className="space-y-2">
                         <Label htmlFor="location" className="text-sm font-medium text-slate-900">
@@ -114,18 +104,13 @@ export default function ReportIssue() {
                             value={location}
                             onChange={(e) => setLocation(e.target.value)}
                             onGpsClick={handleGpsFetch}
+                            required
+                            pattern=".*\S.*"
+                            title="Location details or GPS tracking is required."
                         />
                     </div>
 
                     <Button
-                        onClick={() =>
-                            toast("Event has been created", {
-                              description: "Sunday, December 03, 2023 at 9:00 AM",
-                              action: {
-                                label: "Undo",
-                                onClick: () => console.log("Undo"),
-                              },
-                            position: "bottom-right" })}
                         size="lg"
                         type="submit"
                         className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl flex items-center justify-center gap-2 transition-colors mt-2 py-5"

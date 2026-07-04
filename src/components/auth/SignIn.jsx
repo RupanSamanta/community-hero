@@ -17,15 +17,15 @@ function SignIn() {
                 <CardContent className="space-y-4">
                     <div className="space-y-1">
                         <Label htmlFor="signin-email">Email</Label>
-                        <Input id="signin-email" type="email" placeholder="m@example.com" />
+                        <Input id="signin-email" type="email" placeholder="m@example.com" required />
                     </div>
                     <div className="space-y-1">
                         <Label htmlFor="signin-password">Password</Label>
-                        <Input id="signin-password" type="password" />
+                        <Input id="signin-password" type="password" required />
                     </div>
                 </CardContent>
                 <CardFooter>
-                <Button size="lg" className="w-full p-5 bg-emerald-600">Sign In</Button>
+                    <Button size="lg" type="submit" className="w-full p-5 bg-emerald-600">Sign In</Button>
                 </CardFooter>
             </Card>
         </TabsContent>
