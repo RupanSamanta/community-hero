@@ -3,12 +3,14 @@ import { CategoryChart } from "./CategoryChart"
 import { StatusChart } from "./StatusChart"
 import { issues } from "@/data/issues"
 
+const normalizeStatus = (status) => status.toLowerCase();
+
 function Dashboard() {
     const dashboard = {
         totalIssues: issues.length,
-        openIssues: issues.filter(issue => issue.status !== "Resolved").length,
-        inProgressIssues: issues.filter(issue => issue.status === "In Progress").length,
-        resolvedIssues: issues.filter(issue => issue.status === "Resolved").length,
+        openIssues: issues.filter(issue => normalizeStatus(issue.status) !== "resolved").length,
+        inProgressIssues: issues.filter(issue => normalizeStatus(issue.status) === "in progress").length,
+        resolvedIssues: issues.filter(issue => normalizeStatus(issue.status) === "resolved").length,
     };
 
     return (
@@ -22,8 +24,8 @@ function Dashboard() {
                 </div>
                 <KpiSection data={dashboard} />
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <CategoryChart />
-                    <StatusChart />
+                    <CategoryChart issues={issues} />
+                    <StatusChart issues={issues} />
                 </div>
             </div>
         </>

@@ -14,9 +14,9 @@ export default function IssuesPage() {
     const [searchQuery, setSearchQuery] = useState("");
 
     const filteredIssues = issues.filter((issue) => {
-        const matchesCategory = selectedCategory.includes("All") || issue.category === selectedCategory
-        const matchesStatus = selectedStatus.includes("All") || issue.status === selectedStatus
-        const matchesSeverity = selectedSeverity.includes("All") || issue.severity === selectedSeverity
+        const matchesCategory = selectedCategory.includes("All") || issue.category === selectedCategory.toLowerCase();
+        const matchesStatus = selectedStatus.includes("All") || issue.status === selectedStatus.toLowerCase();
+        const matchesSeverity = selectedSeverity.includes("All") || issue.severity === selectedSeverity.toLowerCase();
 
         const matchesSearch = issue.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             issue.description.toLowerCase().includes(searchQuery.toLowerCase())

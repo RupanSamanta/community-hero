@@ -7,11 +7,27 @@ export const CATEGORY_CONFIG = {
     "other": { style: "bg-rose-100 text-rose-800 border-rose-300", icon: "📌" },
 };
 
+export const CATEGORY_COLORS = {
+    "pothole": "#10b981",
+    "water leak": "#3b82f6",
+    "streetlight": "#f59e0b",
+    "waste": "#78716c",
+    "infrastructure": "#f97316",
+    "other": "#f43f5e",
+};
+
 export const STATUS_CONFIG = {
     "reported": "bg-gray-100 text-gray-700 border-gray-200 hover:bg-gray-200",
     "verified": "bg-indigo-100 text-indigo-700 border-indigo-300 hover:bg-indigo-200",
     "in progress": "bg-sky-100 text-sky-700 border-sky-300 hover:bg-sky-200",
     "resolved": "bg-emerald-100 text-emerald-800 border-emerald-300 hover:bg-emerald-200",
+};
+
+export const STATUS_COLORS = {
+    "reported": "#64748b",
+    "verified": "#6366f1",
+    "in progress": "#0ea5e9",
+    "resolved": "#10b981",
 };
 
 export const SEVERITY_CONFIG = {

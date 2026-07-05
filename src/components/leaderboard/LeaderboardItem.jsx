@@ -5,14 +5,14 @@ const getRankStyles = (rank) => {
         case 1: return "bg-amber-100 text-amber-600"
         case 2: return "bg-slate-100 text-slate-500"
         case 3: return "bg-orange-100 text-orange-700"
-        default: return "bg-slate-100 text-slate-500"
+        default: return "bg-slate-200 text-slate-500"
     }
 }
 
 export function LeaderboardItem({ name, reports, verifications, points, rank }) {
 
     return (
-        <div className="flex items-center justify-between p-5 transition-colors hover:bg-slate-50/50">
+        <div className="flex items-center justify-between p-5 transition-colors hover:bg-slate-200/40">
 
             <div className="flex items-center gap-4">
                 <div className={`w-11 h-11 rounded-full flex items-center justify-center shrink-0 ${getRankStyles(rank)}`}>

@@ -22,7 +22,7 @@ export default function Leaderboard() {
                         Earn points by reporting (+10) and verifying (+2) issues.
                     </p>
                 </div>
-                <div className="border border-slate-200/80 bg-white rounded-2xl shadow-sm divide-y divide-slate-100 overflow-hidden">
+                <div className="border border-slate-200/50 bg-white rounded-2xl shadow-sm divide-y divide-slate-100 overflow-hidden *:nth-of-type-[even]:bg-gray-100/40">
                     {sortedHeroes.length > 0 ? (
                         sortedHeroes.map((hero, index) => (
                             <LeaderboardItem
