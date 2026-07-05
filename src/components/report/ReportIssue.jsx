@@ -1,20 +1,31 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
-import { Sparkles } from "lucide-react"
+import { LogIn, Sparkles } from "lucide-react"
 import { toast } from "sonner"
+import { Link } from "react-router-dom"
+import { AUTH_CHANGE_EVENT, getCurrentUser } from "@/lib/storage"
 
 import PhotoUpload from "./PhotoUpload"
 import LocationInput from "./LocationInput"
 
 export default function ReportIssue() {
+    const [currentUser, setCurrentUser] = useState(() => getCurrentUser());
+    const isSignedIn = Boolean(currentUser?.id);
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [location, setLocation] = useState("");
 
     const [photo, setPhoto] = useState(null);
+
+    useEffect(() => {
+        const handleAuthChange = () => setCurrentUser(getCurrentUser());
+
+        window.addEventListener(AUTH_CHANGE_EVENT, handleAuthChange);
+        return () => window.removeEventListener(AUTH_CHANGE_EVENT, handleAuthChange);
+    }, []);
 
     const handleGpsFetch = () => {
         if (!navigator.geolocation) {
@@ -34,8 +45,13 @@ export default function ReportIssue() {
     const handleSubmit = (e) => {
         e.preventDefault()
 
+        if (!isSignedIn) {
+            toast.error("Please sign in before submitting a report.");
+            return;
+        }
+
         // Execution path on valid payloads
-        console.log({ title, description, location })
+        console.log({ title, description, location, reportedBy: currentUser.id })
 
         toast.success("Report Submitted!", {
             description: `"${title}" has been successfully logged.`,
@@ -60,6 +76,22 @@ export default function ReportIssue() {
                     </p>
                 </div>
 
+                {!isSignedIn ? (
+                    <div className="border border-slate-200/80 bg-white rounded-2xl shadow-sm p-6 space-y-4">
+                        <div>
+                            <h2 className="text-lg font-semibold text-slate-900">Sign in required</h2>
+                            <p className="text-sm text-slate-500 mt-1">
+                                You need to sign in before submitting a community report.
+                            </p>
+                        </div>
+                        <Button asChild className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg px-3 py-4">
+                            <Link to="/auth">
+                                <LogIn className="w-4 h-4" />
+                                Sign in to continue
+                            </Link>
+                        </Button>
+                    </div>
+                ) : (
                 <form
                     onSubmit={handleSubmit}
                     className="border border-slate-200/80 bg-white rounded-2xl shadow-sm p-6 space-y-5"
@@ -120,6 +152,7 @@ export default function ReportIssue() {
                     </Button>
 
                 </form>
+                )}
 
             </div>
         </>

@@ -31,10 +31,10 @@ export default function IssuesPage() {
 
             <div className="pt-30 pb-12">
                 <div>
-                    <div className="text text-3xl font-bold">Issues</div>
-                    <div className="text-gray-600">
+                    <h1 className="text-3xl font-bold tracking-tight text-slate-900">Issues</h1>
+                    <p className="text-gray-500 text-sm mt-1">
                         <span>{filteredIssues.length}</span> of <span>{issues.length}</span> reports
-                    </div>
+                    </p>
                 </div>
                 <FieldSet>
                     <FieldGroup className="grid grid-cols-4 mt-6 *:*:p-3 *:*:py-4.5 *:*:border-2 *:*:focus-visible:border-emerald-600 *:*:focus:border-emerald-600 *:*:shadow-sm">

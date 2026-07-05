@@ -6,13 +6,13 @@ import IssuesPage from "./components/issues/IssuesPage"
 import Dashboard from "./components/dashboard/Dashboard"
 import Leaderboard from "./components/leaderboard/Leaderboard"
 import ReportIssue from "./components/report/ReportIssue"
-import { Toaster } from "sonner"
+import { Toaster } from "@/components/ui/sonner"
 import Header from "./components/layout/Header"
 
 function App() {
   return (
     <>
-    <Header />
+      <Header />
       <Routes>
         <Route path="/home" element={<Home />} />
         <Route path="/auth" element={<AuthPage />} />

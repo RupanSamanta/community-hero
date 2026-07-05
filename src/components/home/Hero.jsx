@@ -47,7 +47,7 @@ function HeroSection() {
                 </p>
                 <div className="flex gap-3 *:*:p-5">
                     <Link to="/report">
-                        <Button size="lg" className="bg-emerald-600">Report an issue</Button>
+                        <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700">Report an issue</Button>
                     </Link>
                     <Link to="/issues">
                         <Button size="lg" variant="outline">Browse issues</Button>
