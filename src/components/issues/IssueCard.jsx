@@ -5,11 +5,7 @@ import { MapPin, ShieldCheck } from "lucide-react"
 import { CategoryBadge } from "./CategoryBadge"
 import { StatusBadge } from "./StatusBadge"
 
-const SEVERITY_CONFIG = {
-    "high severity": "bg-orange-100 text-orange-800 border-orange-200 hover:bg-orange-100",
-    "medium severity": "bg-amber-100 text-amber-950 border-amber-200 hover:bg-amber-100",
-    "low severity": "bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-100",
-}
+import { SEVERITY_CONFIG } from "@/lib/constants"
 
 export default function IssueCard({ issue }) {
     const { title, description, category, status, severity, location, upvotes } = issue
@@ -20,8 +16,8 @@ export default function IssueCard({ issue }) {
             <CardHeader className="p-4 pb-3 flex flex-row flex-wrap items-center gap-2 m-0">
                 <CategoryBadge category={category} />
                 <StatusBadge status={status} />
-                <Badge variant="outline" className={`${SEVERITY_CONFIG[severity.toLowerCase()] || SEVERITY_CONFIG["low severity"]} capitalize rounded-full px-2.5 py-1 text-xs font-normal`}>
-                    {severity}
+                <Badge variant="outline" className={`${SEVERITY_CONFIG[severity] || SEVERITY_CONFIG["Low"]} capitalize rounded-full px-2.5 py-1 text-xs font-normal`}>
+                    {severity} Severity
                 </Badge>
             </CardHeader>
 

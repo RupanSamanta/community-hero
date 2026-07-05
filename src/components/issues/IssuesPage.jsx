@@ -4,29 +4,31 @@ import { Field, FieldGroup, FieldSet } from "../ui/field"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group";
 import { AppSelect } from "./AppSelect"
 import IssueCard from "./IssueCard";
-import { CATEGORY_CONFIG, STATUS_CONFIG } from "@/lib/constants";
+import { CATEGORY_CONFIG, STATUS_CONFIG, SEVERITY_CONFIG } from "@/lib/constants";
 import { issues } from "@/data/issues";
 
 export default function IssuesPage() {
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [selectedStatus, setSelectedStatus] = useState("All");
+    const [selectedSeverity, setSelectedSeverity] = useState("All");
     const [searchQuery, setSearchQuery] = useState("");
 
     const filteredIssues = issues.filter((issue) => {
         const matchesCategory = selectedCategory.includes("All") || issue.category === selectedCategory
         const matchesStatus = selectedStatus.includes("All") || issue.status === selectedStatus
+        const matchesSeverity = selectedSeverity.includes("All") || issue.severity === selectedSeverity
 
         const matchesSearch = issue.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             issue.description.toLowerCase().includes(searchQuery.toLowerCase())
 
-        return matchesCategory && matchesStatus && matchesSearch
+        return matchesCategory && matchesStatus && matchesSeverity && matchesSearch
     });
 
 
     return (
         <>
             <title>Issues - Community Hero</title>
-            
+
             <div className="pt-30 pb-12">
                 <div>
                     <div className="text text-3xl font-bold">Issues</div>
@@ -35,7 +37,7 @@ export default function IssuesPage() {
                     </div>
                 </div>
                 <FieldSet>
-                    <FieldGroup className="grid grid-cols-3 mt-6 *:*:p-3 *:*:py-4.5 *:*:border-2 *:*:focus-visible:border-emerald-600 *:*:focus:border-emerald-600 *:*:shadow-sm">
+                    <FieldGroup className="grid grid-cols-4 mt-6 *:*:p-3 *:*:py-4.5 *:*:border-2 *:*:focus-visible:border-emerald-600 *:*:focus:border-emerald-600 *:*:shadow-sm">
                         <Field>
                             <InputGroup className="border-gray-200! focus-within:border-emerald-600! focus-within:ring-0! focus-within:ring-offset-0! transition-colors">
                                 <InputGroupInput
@@ -65,8 +67,16 @@ export default function IssuesPage() {
                                 onValueChange={(val) => setSelectedStatus(val)}
                             />
                         </Field>
+                        <Field>
+                            <AppSelect
+                                label="Severities"
+                                placeholder="Filter by Severity"
+                                options={Object.keys(SEVERITY_CONFIG)}
+                                onValueChange={(val) => setSelectedSeverity(val)}
+                            />
+                        </Field>
                     </FieldGroup>
-                    <FieldGroup className="grid grid-cols-3 items-stretch *:*:h-full mt-6">
+                    <FieldGroup className="grid grid-cols-3 items-stretch  *:*:h-full mt-6">
                         {filteredIssues.map((issue, key) => (
                             <Field key={key}>
                                 <IssueCard key={issue.id} issue={issue} />

@@ -1,13 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
-const kpiData = [
-    { title: "Total reports", value: "3", color: "text-slate-900" },
-    { title: "Open", value: "2", color: "text-slate-900" },
-    { title: "In progress", value: "1", color: "text-slate-900" },
-    { title: "Resolved", value: "1", color: "text-emerald-600" },
-]
+export function KpiSection({ data }) {
+    const kpiData = [
+        { title: "Total reports", value: data.totalIssues, color: "text-slate-900" },
+        { title: "Open", value: data.openIssues, color: "text-slate-900" },
+        { title: "In progress", value: data.inProgressIssues, color: "text-slate-900" },
+        { title: "Resolved", value: data.resolvedIssues, color: "text-emerald-600" },
+    ];
 
-export function KpiSection() {
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {kpiData.map((kpi, idx) => (

@@ -19,7 +19,7 @@ export function AppSelect({ label, options, placeholder, onValueChange }) {
                 <SelectGroup>
                     <SelectLabel>{label}</SelectLabel>
                     {allOptions.map((option) => (
-                        <SelectItem key={option} value={option}>
+                        <SelectItem key={option} value={option} className="capitalize">
                             {option}
                         </SelectItem>
                     ))}

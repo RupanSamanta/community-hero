@@ -1,8 +1,16 @@
 import { KpiSection } from "./KpiSection"
 import { CategoryChart } from "./CategoryChart"
 import { StatusChart } from "./StatusChart"
+import { issues } from "@/data/issues"
 
 function Dashboard() {
+    const dashboard = {
+        totalIssues: issues.length,
+        openIssues: issues.filter(issue => issue.status !== "Resolved").length,
+        inProgressIssues: issues.filter(issue => issue.status === "In Progress").length,
+        resolvedIssues: issues.filter(issue => issue.status === "Resolved").length,
+    };
+
     return (
         <>
             <title>Dashboard - Community Hero</title>
@@ -12,7 +20,7 @@ function Dashboard() {
                     <h1 className="text-3xl font-bold tracking-tight text-slate-900">Impact dashboard</h1>
                     <p className="text-gray-500 text-sm mt-1">Community-wide performance snapshot</p>
                 </div>
-                <KpiSection />
+                <KpiSection data={dashboard} />
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <CategoryChart />
                     <StatusChart />

@@ -1,18 +1,12 @@
 import { LeaderboardItem } from "./LeaderboardItem"
-
-const rawHeroesData = [
-    { name: "Demo Citizen", reports: 1, verifications: 7 },
-    { name: "Riya Kumar", reports: 2, verifications: 18 },
-    { name: "Rupan Samanta", reports: 0, verifications: 0 },
-    { name: "Rupamanta", reports: 4, verifications: 0 },
-]
+import { users } from "@/data/users"
 
 const calculatePoints = (reports, verifications) => {
     return (reports * 10) + (verifications * 2)
 }
 
 export default function Leaderboard() {
-    const sortedHeroes = [...rawHeroesData].map((hero) => ({
+    const sortedHeroes = [...users].map((hero) => ({
         ...hero,
         points: calculatePoints(hero.reports, hero.verifications),
     })).sort((a, b) => b.points - a.points);
@@ -29,16 +23,22 @@ export default function Leaderboard() {
                     </p>
                 </div>
                 <div className="border border-slate-200/80 bg-white rounded-2xl shadow-sm divide-y divide-slate-100 overflow-hidden">
-                    {sortedHeroes.map((hero, index) => (
-                        <LeaderboardItem
-                            key={hero.name}
-                            name={hero.name}
-                            reports={hero.reports}
-                            verifications={hero.verifications}
-                            points={hero.points}
-                            rank={index + 1}
-                        />
-                    ))}
+                    {sortedHeroes.length > 0 ? (
+                        sortedHeroes.map((hero, index) => (
+                            <LeaderboardItem
+                                key={hero.name}
+                                name={hero.name}
+                                reports={hero.reports}
+                                verifications={hero.verifications}
+                                points={hero.points}
+                                rank={index + 1}
+                            />
+                        ))
+                    ) : (
+                        <div className="col-span-3 h-40 flex justify-center items-center text-slate-500 rounded-lg border-dashed border border-gray-300">
+                            No heroes here yet.
+                        </div>
+                    )}
                 </div>
             </div>
         </>
