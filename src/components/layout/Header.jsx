@@ -1,9 +1,9 @@
 import { LogOut, MapPin } from "lucide-react"
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
-import Navbar from "@/components/layout/Navbar"
 import { useEffect, useState } from "react";
 import { AUTH_CHANGE_EVENT, clearCurrentUser, getCurrentUser } from "@/lib/storage";
+import Navbar from "@/components/layout/Navbar"
 
 function Header() {
     const [currentUser, setCurrentUser] = useState(() => getCurrentUser());

@@ -36,7 +36,7 @@ function SignUpForm({ onSubmit }) {
                 </div>
             </CardContent>
             <CardFooter>
-                <Button size="lg" type="submit" className="w-full p-5 bg-emerald-600">Create Account</Button>
+                <Button size="lg" type="submit" className="w-full p-5 bg-emerald-600 hover:bg-emerald-700">Create Account</Button>
             </CardFooter>
         </form>
     )
