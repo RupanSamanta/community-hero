@@ -7,8 +7,8 @@ import ReportIssueForm from "./ReportIssueForm";
 export default function ReportIssue() {
     const [currentUser, setCurrentUser] = useState(() => getCurrentUser());
     const isSignedIn = Boolean(currentUser?.id);
-    const [title, setTitle] = useState("")
-    const [description, setDescription] = useState("")
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
     const [location, setLocation] = useState("");
 
     const [photo, setPhoto] = useState(null);
