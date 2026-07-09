@@ -1,24 +1,21 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { toast } from "sonner"
-import { AUTH_CHANGE_EVENT, getCurrentUser } from "@/lib/storage"
 import SignInRequiredCard from "./SignInRequiredCard"
-import ReportIssueForm from "./ReportIssueForm";
+import ReportIssueForm from "./ReportIssueForm"
+import useCurrentUser from "./useCurrentUser"
+import { getIssues } from "@/lib/storage.js"
+import { saveIssues } from "@/lib/storage.js"
 
 export default function ReportIssue() {
-    const [currentUser, setCurrentUser] = useState(() => getCurrentUser());
+    const currentUser = useCurrentUser();
+    console.log(currentUser);
+    
     const isSignedIn = Boolean(currentUser?.id);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [location, setLocation] = useState("");
 
     const [photo, setPhoto] = useState(null);
-
-    useEffect(() => {
-        const handleAuthChange = () => setCurrentUser(getCurrentUser());
-
-        window.addEventListener(AUTH_CHANGE_EVENT, handleAuthChange);
-        return () => window.removeEventListener(AUTH_CHANGE_EVENT, handleAuthChange);
-    }, []);
 
     const handleGpsFetch = () => {
         if (!navigator.geolocation) {
@@ -62,21 +59,34 @@ export default function ReportIssue() {
 
     }
 
-    // ⚡ Form Validation Trigger
+    // Form Validation Trigger
     const handleSubmit = (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
         if (!isSignedIn) {
             toast.error("Please sign in before submitting a report.");
             return;
         }
 
-        // Execution path on valid payloads
-        console.log({ title, description, location, reportedBy: currentUser.id, photo })
+        const newIssue = {
+            id: crypto.randomUUID(),
+            title: title,
+            description: description,
+            category: "undefined",
+            status: "issued",
+            severity: "high",
+            location: location,
+            upvotes: null,
+            reportedBy: currentUser.id,
+            image: photo,
+            createdAt: new Date().toISOString()
+        };
+        const allIssues = getIssues();
+        saveIssues([newIssue, ...allIssues]);
 
         toast.success("Report Submitted!", {
             description: `"${title}" has been successfully logged.`,
-        })
+        });
 
         // Clear states
         setTitle("");

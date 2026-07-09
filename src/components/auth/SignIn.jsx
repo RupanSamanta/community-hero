@@ -26,7 +26,6 @@ function SignIn() {
             toast.success("Welcome back, " + currentUser.name);
             e.currentTarget.reset();
             navigate('/home', { replace: true });
-
         } else {
             toast.error("Invalid email or password");
         }

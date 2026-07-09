@@ -1,9 +1,10 @@
 import HeroSection from "./Hero"
 import { Link } from "react-router-dom"
-import { issues } from "@/data/issues"
 import IssueCard from "../issues/IssueCard"
+import { getIssues } from "@/lib/storage.js"
 
 function Home() {
+  const allIssues = getIssues();
   return (
     <>
       <HeroSection />
@@ -13,7 +14,7 @@ function Home() {
           <Link to="/issues" className="flex items-center gap-2 text-md text-emerald-600 hover:underline">View all &rarr;</Link>
         </div>
         <div className="grid grid-cols-3 gap-4 mt-4">
-          {issues.slice(0, 3).map((issue, index) => (
+          {allIssues.slice(0, 3).map((issue, index) => (
             <IssueCard key={index} issue={issue} />
           ))}
         </div>
