@@ -5,7 +5,7 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group"
 import { AppSelect } from "./AppSelect"
 import IssueCard from "./IssueCard";
 import { CATEGORY_CONFIG, STATUS_CONFIG, SEVERITY_CONFIG } from "@/lib/constants";
-import { issues } from "@/data/issues";
+import { getIssues } from "@/lib/storage.js";
 
 export default function IssuesPage() {
     const [selectedCategory, setSelectedCategory] = useState("All");
@@ -13,7 +13,8 @@ export default function IssuesPage() {
     const [selectedSeverity, setSelectedSeverity] = useState("All");
     const [searchQuery, setSearchQuery] = useState("");
 
-    const filteredIssues = issues.filter((issue) => {
+    const allIssues = getIssues();
+    const filteredIssues = allIssues.filter((issue) => {
         const matchesCategory = selectedCategory.includes("All") || issue.category === selectedCategory.toLowerCase();
         const matchesStatus = selectedStatus.includes("All") || issue.status === selectedStatus.toLowerCase();
         const matchesSeverity = selectedSeverity.includes("All") || issue.severity === selectedSeverity.toLowerCase();
@@ -33,7 +34,7 @@ export default function IssuesPage() {
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight text-slate-900">Issues</h1>
                     <p className="text-gray-500 text-sm mt-1">
-                        <span>{filteredIssues.length}</span> of <span>{issues.length}</span> reports
+                        <span>{filteredIssues.length}</span> of <span>{allIssues.length}</span> reports
                     </p>
                 </div>
                 <FieldSet>

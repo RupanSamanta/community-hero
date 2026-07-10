@@ -9,6 +9,8 @@ function useCurrentUser() {
         window.addEventListener(AUTH_CHANGE_EVENT, handleAuthChange);
         return () => window.removeEventListener(AUTH_CHANGE_EVENT, handleAuthChange);
     }, []);
+
+    return currentUser;
 }
 
 export default useCurrentUser;

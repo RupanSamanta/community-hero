@@ -1,12 +1,13 @@
 import { LeaderboardItem } from "./LeaderboardItem"
-import { users } from "@/data/users"
+import { getUsers } from "@/lib/storage.js";
 
 const calculatePoints = (reports, verifications) => {
     return (reports * 10) + (verifications * 2)
 }
 
 export default function Leaderboard() {
-    const sortedHeroes = [...users].map((hero) => ({
+    const allUsers = getUsers();
+    const sortedHeroes = [...allUsers].map((hero) => ({
         ...hero,
         points: calculatePoints(hero.reports, hero.verifications),
     })).sort((a, b) => b.points - a.points);
