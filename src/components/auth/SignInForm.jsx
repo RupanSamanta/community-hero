@@ -2,14 +2,12 @@ import { Button } from "../ui/button"
 import { CardContent, CardFooter } from "../ui/card"
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
-import { useState } from "react"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group"
 import { Eye, EyeOff } from "lucide-react"
+import useToggle from "@/hooks/usePasswordVisibility"
 
 function SignInForm({ onSubmit }) {
-
-    const [showPassword, setShowPassword] = useState(false);
-
+    const [showPassword, setShowPassword] = useToggle();
     return (
         <form onSubmit={onSubmit}>
             <CardContent className="space-y-4 pb-4">

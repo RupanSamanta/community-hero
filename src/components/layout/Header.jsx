@@ -1,19 +1,13 @@
 import { LogOut, MapPin } from "lucide-react"
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { AUTH_CHANGE_EVENT, clearCurrentUser, getCurrentUser } from "@/lib/storage";
+import { clearCurrentUser } from "@/lib/storage";
 import Navbar from "@/components/layout/Navbar"
+import useCurrentUser from "@/hooks/useCurrentUser.js";
 
 function Header() {
-    const [currentUser, setCurrentUser] = useState(() => getCurrentUser());
+    const currentUser = useCurrentUser();
     const isSignedIn = Boolean(currentUser?.id);
-
-    useEffect(() => {
-        const handleAuthChange = () => setCurrentUser(getCurrentUser());
-        window.addEventListener(AUTH_CHANGE_EVENT, handleAuthChange);
-        return () => window.removeEventListener(AUTH_CHANGE_EVENT, handleAuthChange);
-    }, []);
 
     const handleLogout = () => {
         clearCurrentUser();

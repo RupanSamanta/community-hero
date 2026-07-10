@@ -2,19 +2,17 @@ import { useState } from "react"
 import { toast } from "sonner"
 import SignInRequiredCard from "./SignInRequiredCard"
 import ReportIssueForm from "./ReportIssueForm"
-import useCurrentUser from "./useCurrentUser"
 import { getIssues } from "@/lib/storage.js"
 import { saveIssues } from "@/lib/storage.js"
+import useCurrentUser from "@/hooks/useCurrentUser"
 
 export default function ReportIssue() {
     const currentUser = useCurrentUser();
-    console.log(currentUser);
     
     const isSignedIn = Boolean(currentUser?.id);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [location, setLocation] = useState("");
-
     const [photo, setPhoto] = useState(null);
 
     const handleGpsFetch = () => {

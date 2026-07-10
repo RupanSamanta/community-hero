@@ -2,13 +2,14 @@ import { Button } from "../ui/button"
 import { CardContent, CardFooter } from "../ui/card"
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
-import { useState } from "react"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group"
 import { Eye, EyeOff } from "lucide-react"
+import useToggle from "@/hooks/usePasswordVisibility"
 
 function SignUpForm({ onSubmit }) {
     
-    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useToggle();
+    const [showConfirmPassword, setShowConfirmPassword] = useToggle();
 
     return (
         <form onSubmit={onSubmit}>
@@ -30,6 +31,19 @@ function SignUpForm({ onSubmit }) {
                                 onClick={() => { setShowPassword(prev => !prev) }}
                             >
                                 {showPassword ? <EyeOff /> : <Eye />}
+                            </Button>
+                        </InputGroupAddon>
+                    </InputGroup>
+                </div>
+                <div className="space-y-1">
+                    <Label htmlFor="signup-confirm-password">Confirm Password</Label>
+                    <InputGroup>
+                        <InputGroupInput id="signup-confirm-password" name="signup-confirm-password" type={showConfirmPassword ? "text" : "password"} minLength="6" maxLength="32" required />
+                        <InputGroupAddon align="inline-end">
+                            <Button size="md" type="button" variant="ghost" className="mr-2 hover:bg-transparent"
+                                onClick={() => { setShowConfirmPassword(prev => !prev) }}
+                            >
+                                {showConfirmPassword ? <EyeOff /> : <Eye />}
                             </Button>
                         </InputGroupAddon>
                     </InputGroup>
