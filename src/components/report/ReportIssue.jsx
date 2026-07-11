@@ -5,6 +5,7 @@ import ReportIssueForm from "./ReportIssueForm"
 import { getIssues } from "@/lib/storage.js"
 import { saveIssues } from "@/lib/storage.js"
 import useCurrentUser from "@/hooks/useCurrentUser"
+import useGeolocation from "@/hooks/useGeolocation.js"
 
 export default function ReportIssue() {
     const currentUser = useCurrentUser();
@@ -12,33 +13,11 @@ export default function ReportIssue() {
     const isSignedIn = Boolean(currentUser?.id);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [location, setLocation] = useState("");
     const [photo, setPhoto] = useState(null);
+    const {location, setLocation, getLocation} = useGeolocation();
 
     const handleGpsFetch = () => {
-        if (!navigator.geolocation) {
-            toast.error("Geolocation not supported");
-            return;
-        }
-
-        const locationPromise = new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(
-                (pos) => {
-                    const coords = {
-                        lat: pos.coords.latitude.toFixed(4),
-                        lon: pos.coords.longitude.toFixed(4)
-                    }
-                    setLocation(`${coords.lat}, ${coords.lon}`);
-                    resolve(coords);
-                },
-                (error) => {
-                    setLocation("");
-                    reject(error);
-                }
-            );
-        });
-
-        toast.promise(locationPromise, {
+        toast.promise(getLocation(), {
             loading: 'Fetching location...',
             success: () => `Location fetched`,
             error: (err) => {
@@ -53,8 +32,7 @@ export default function ReportIssue() {
                         return 'An unknown error occurred.';
                 }
             },
-        })
-
+        });
     }
 
     // Form Validation Trigger

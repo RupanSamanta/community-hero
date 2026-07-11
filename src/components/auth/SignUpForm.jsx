@@ -7,12 +7,31 @@ import { Eye, EyeOff } from "lucide-react"
 import useToggle from "@/hooks/usePasswordVisibility"
 
 function SignUpForm({ onSubmit }) {
-    
+
     const [showPassword, setShowPassword] = useToggle();
     const [showConfirmPassword, setShowConfirmPassword] = useToggle();
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.currentTarget);
+        const password = formData.get("password");
+        const confirmPassword = formData.get("signup-confirm-password");
+
+        const confirmInput = e.currentTarget.elements["signup-confirm-password"];
+
+        if (password !== confirmPassword) {
+            confirmInput.setCustomValidity("Passwords do not match.");
+            confirmInput.reportValidity();
+            return;
+        }
+
+        confirmInput.setCustomValidity("");
+        onSubmit(e);
+    };
+
     return (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={handleSubmit}>
             <CardContent className="space-y-4 pb-4">
                 <div className="space-y-1">
                     <Label htmlFor="signup-name">Full Name</Label>
@@ -38,7 +57,17 @@ function SignUpForm({ onSubmit }) {
                 <div className="space-y-1">
                     <Label htmlFor="signup-confirm-password">Confirm Password</Label>
                     <InputGroup>
-                        <InputGroupInput id="signup-confirm-password" name="signup-confirm-password" type={showConfirmPassword ? "text" : "password"} minLength="6" maxLength="32" required />
+                        <InputGroupInput
+                            id="signup-confirm-password"
+                            name="signup-confirm-password"
+                            type={showConfirmPassword ? "text" : "password"}
+                            minLength="6"
+                            maxLength="32"
+                            required
+                            onChange={(e) => {
+                                e.target.setCustomValidity("");
+                            }}
+                        />
                         <InputGroupAddon align="inline-end">
                             <Button size="md" type="button" variant="ghost" className="mr-2 hover:bg-transparent"
                                 onClick={() => { setShowConfirmPassword(prev => !prev) }}
