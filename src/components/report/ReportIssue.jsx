@@ -2,19 +2,19 @@ import { useState } from "react"
 import { toast } from "sonner"
 import SignInRequiredCard from "./SignInRequiredCard"
 import ReportIssueForm from "./ReportIssueForm"
-import { getIssues } from "@/lib/storage.js"
+import { getIssues, saveUsers, getUsers } from "@/lib/storage.js"
 import { saveIssues } from "@/lib/storage.js"
 import useCurrentUser from "@/hooks/useCurrentUser"
 import useGeolocation from "@/hooks/useGeolocation.js"
 
 export default function ReportIssue() {
     const currentUser = useCurrentUser();
-    
+
     const isSignedIn = Boolean(currentUser?.id);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [photo, setPhoto] = useState(null);
-    const {location, setLocation, getLocation} = useGeolocation();
+    const { location, setLocation, getLocation } = useGeolocation();
 
     const handleGpsFetch = () => {
         toast.promise(getLocation(), {
@@ -61,6 +61,18 @@ export default function ReportIssue() {
         };
         const allIssues = getIssues();
         saveIssues([newIssue, ...allIssues]);
+
+        const updatedUsers = getUsers().map((user) => {
+            if (user.id !== currentUser.id) {
+                return user;
+            }
+
+            return {
+                ...user,
+                reports: (Number(user.reports) || 0) + 1,
+            };
+        });
+        saveUsers(updatedUsers);
 
         toast.success("Report Submitted!", {
             description: `"${title}" has been successfully logged.`,
