@@ -1,19 +1,68 @@
 import { useState } from "react";
 import { SearchIcon } from "lucide-react";
+import { toast } from "sonner";
 import { Field, FieldGroup, FieldSet } from "../ui/field"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group";
 import { AppSelect } from "./AppSelect"
 import IssueCard from "./IssueCard";
 import { CATEGORY_CONFIG, STATUS_CONFIG, SEVERITY_CONFIG } from "@/lib/constants";
-import { getIssues } from "@/lib/storage.js";
+import { getCurrentUser, getIssues, getUsers, saveIssues, saveUsers } from "@/lib/storage.js";
 
 export default function IssuesPage() {
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [selectedStatus, setSelectedStatus] = useState("All");
     const [selectedSeverity, setSelectedSeverity] = useState("All");
     const [searchQuery, setSearchQuery] = useState("");
+    const [allIssues, setAllIssues] = useState(() => getIssues());
 
-    const allIssues = getIssues();
+    const handleVerifyIssue = (issueId) => {
+        const activeUser = getCurrentUser();
+
+        if (!activeUser?.id) {
+            toast.error("Please sign in to verify this issue.");
+            return;
+        }
+
+        const updatedIssues = allIssues.map((issue) => {
+            if (issue.id !== issueId) {
+                return issue;
+            }
+
+            const verifiedBy = Array.isArray(issue.verifiedBy) ? issue.verifiedBy : [];
+            if (verifiedBy.includes(activeUser.id)) {
+                toast.info("You have already verified this issue.");
+                return issue;
+            }
+
+            const nextVerificationCount = (Number(issue.verificationCount ?? issue.upvotes ?? 0)) + 1;
+
+            return {
+                ...issue,
+                verificationCount: nextVerificationCount,
+                upvotes: nextVerificationCount,
+                verifiedBy: [...verifiedBy, activeUser.id],
+                status: issue.status === "reported" ? "verified" : issue.status,
+            };
+        });
+
+        saveIssues(updatedIssues);
+        setAllIssues(updatedIssues);
+
+        const updatedUsers = getUsers().map((user) => {
+            if (user.id !== activeUser.id) {
+                return user;
+            }
+
+            return {
+                ...user,
+                verifications: (Number(user.verifications) || 0) + 1,
+            };
+        });
+
+        saveUsers(updatedUsers);
+        toast.success("Issue verified. Your community hero score has increased.");
+    };
+
     const filteredIssues = allIssues.filter((issue) => {
         const matchesCategory = selectedCategory.includes("All") || issue.category === selectedCategory.toLowerCase();
         const matchesStatus = selectedStatus.includes("All") || issue.status === selectedStatus.toLowerCase();
@@ -80,7 +129,7 @@ export default function IssuesPage() {
                     <FieldGroup className="grid grid-cols-3 items-stretch  *:*:h-full mt-6">
                         {filteredIssues.map((issue, key) => (
                             <Field key={key}>
-                                <IssueCard key={issue.id} issue={issue} />
+                                <IssueCard key={issue.id} issue={issue} onVerify={handleVerifyIssue} />
                             </Field>
                         ))}
                         {filteredIssues.length === 0 && (

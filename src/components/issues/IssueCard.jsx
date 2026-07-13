@@ -1,14 +1,34 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { MapPin, ShieldCheck } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { MapPin, ShieldCheck, CheckCircle2 } from "lucide-react"
+import { toast } from "sonner"
 
 import { CategoryBadge } from "./CategoryBadge"
 import { StatusBadge } from "./StatusBadge"
 
 import { SEVERITY_CONFIG } from "@/lib/constants"
+import useCurrentUser from "@/hooks/useCurrentUser"
 
-export default function IssueCard({ issue }) {
-    const { title, description, category, status, severity, location, upvotes } = issue
+export default function IssueCard({ issue, onVerify }) {
+    const currentUser = useCurrentUser();
+    const { title, description, category, status, severity, location, upvotes, verifiedBy = [] } = issue
+    const verificationCount = issue.verificationCount ?? upvotes ?? 0;
+    const hasVerified = Boolean(currentUser?.id && verifiedBy.includes(currentUser.id));
+
+    const handleVerify = () => {
+        if (!currentUser?.id) {
+            toast.error("Please sign in to verify this issue.");
+            return;
+        }
+
+        if (hasVerified) {
+            toast.info("You have already verified this issue.");
+            return;
+        }
+
+        onVerify?.(issue.id);
+    }
 
     return (
         <Card className="w-full max-w-100 shadow-sm rounded-2xl p-0 border border-slate-200 hover:shadow-md cursor-pointer transition-shadow bg-white flex flex-col gap-0.5 justify-start">
@@ -30,15 +50,32 @@ export default function IssueCard({ issue }) {
                 </p>
             </CardContent>
 
-            <CardFooter className="p-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium">
+            <CardFooter className="p-4 border-t border-slate-100 flex items-center justify-between gap-3 text-xs text-slate-500 font-medium">
                 <div className="flex items-center gap-1">
                     <MapPin className="w-3.5 h-3.5 text-slate-400" />
                     <span>{location}</span>
                 </div>
 
-                <div className="flex items-center gap-1">
-                    <ShieldCheck className="w-3.5 h-3.5 text-slate-400" />
-                    <span>{upvotes}</span>
+                <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
+                        <ShieldCheck className="w-3.5 h-3.5 text-slate-400" />
+                        <span>{verificationCount}</span>
+                    </div>
+                    {}
+                    <Button
+                        type="button"
+                        size="sm"
+                        variant={hasVerified ? "secondary" : "outline"}
+                        className="rounded-full px-3 py-1.5 text-[0.7rem] font-semibold"
+                        onClick={handleVerify}
+                    >
+                        {hasVerified ? (
+                            <CheckCircle2 className="w-3.5 h-3.5" />
+                        ) : (
+                            <ShieldCheck className="w-3.5 h-3.5" />
+                        )}
+                        <span>{hasVerified ? "Verified" : "Verify"}</span>
+                    </Button>
                 </div>
             </CardFooter>
         </Card>
