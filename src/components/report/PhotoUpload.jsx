@@ -6,6 +6,7 @@ import { Button } from "../ui/button";
 export default function PhotoUpload({ photo, setPhoto }) {
 
     const fileInputRef = useRef(null);
+    
     const previewUrl = useMemo(() => {
         if (!photo) return null;
         return URL.createObjectURL(photo);

@@ -7,6 +7,17 @@ import { saveIssues } from "@/lib/storage.js"
 import useCurrentUser from "@/hooks/useCurrentUser"
 import useGeolocation from "@/hooks/useGeolocation.js"
 
+const readFileAsDataUrl = (file) => {
+    if (!file) return Promise.resolve(null);
+
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error("Could not read the selected image."));
+        reader.readAsDataURL(file);
+    });
+};
+
 export default function ReportIssue() {
     const currentUser = useCurrentUser();
 
@@ -36,7 +47,7 @@ export default function ReportIssue() {
     }
 
     // Form Validation Trigger
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!isSignedIn) {
@@ -44,45 +55,53 @@ export default function ReportIssue() {
             return;
         }
 
-        const newIssue = {
-            id: crypto.randomUUID(),
-            title: title,
-            description: description,
-            category: "undefined",
-            status: "reported",
-            severity: "high",
-            location: location,
-            upvotes: 0,
-            verificationCount: 0,
-            verifiedBy: [],
-            reportedBy: currentUser.id,
-            image: photo,
-            createdAt: new Date().toISOString()
-        };
-        const allIssues = getIssues();
-        saveIssues([newIssue, ...allIssues]);
+        try {
+            const imageDataUrl = await readFileAsDataUrl(photo);
 
-        const updatedUsers = getUsers().map((user) => {
-            if (user.id !== currentUser.id) {
-                return user;
-            }
-
-            return {
-                ...user,
-                reports: (Number(user.reports) || 0) + 1,
+            const newIssue = {
+                id: crypto.randomUUID(),
+                title: title,
+                description: description,
+                category: "undefined",
+                status: "reported",
+                severity: "high",
+                location: location,
+                upvotes: 0,
+                verificationCount: 0,
+                verifiedBy: [],
+                reportedBy: currentUser.id,
+                image: imageDataUrl,
+                createdAt: new Date().toISOString()
             };
-        });
-        saveUsers(updatedUsers);
+            const allIssues = getIssues();
+            saveIssues([newIssue, ...allIssues]);
 
-        toast.success("Report Submitted!", {
-            description: `"${title}" has been successfully logged.`,
-        });
+            const updatedUsers = getUsers().map((user) => {
+                if (user.id !== currentUser.id) {
+                    return user;
+                }
 
-        // Clear states
-        setTitle("");
-        setDescription("");
-        setLocation("");
-        setPhoto(null);
+                return {
+                    ...user,
+                    reports: (Number(user.reports) || 0) + 1,
+                };
+            });
+            saveUsers(updatedUsers);
+
+            toast.success("Report Submitted!", {
+                description: `"${title}" has been successfully logged.`,
+            });
+
+            // Clear states
+            setTitle("");
+            setDescription("");
+            setLocation("");
+            setPhoto(null);
+        } catch (error) {
+            toast.error("Unable to save the photo", {
+                description: error instanceof Error ? error.message : "Please try again.",
+            });
+        }
     }
 
     return (

@@ -12,9 +12,10 @@ import useCurrentUser from "@/hooks/useCurrentUser"
 
 export default function IssueCard({ issue, onVerify }) {
     const currentUser = useCurrentUser();
-    const { title, description, category, status, severity, location, upvotes, verifiedBy = [] } = issue
+    const { title, description, category, status, severity, location, upvotes, verifiedBy = [], image } = issue
     const verificationCount = issue.verificationCount ?? upvotes ?? 0;
     const hasVerified = Boolean(currentUser?.id && verifiedBy.includes(currentUser.id));
+    const previewImage = typeof image === "string" ? image : null;
 
     const handleVerify = () => {
         if (!currentUser?.id) {
@@ -42,6 +43,15 @@ export default function IssueCard({ issue, onVerify }) {
             </CardHeader>
 
             <CardContent className="px-4 pb-3 space-y-2 flex-1">
+                {previewImage && (
+                    <div className="overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
+                        <img
+                            src={previewImage}
+                            alt={title}
+                            className="h-32 w-full object-cover"
+                        />
+                    </div>
+                )}
                 <h3 className="text-[1rem] font-semibold text-slate-900 tracking-tight leading-snug">
                     {title}
                 </h3>
