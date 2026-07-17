@@ -126,7 +126,7 @@ export default function IssuesPage() {
                             />
                         </Field>
                     </FieldGroup>
-                    <FieldGroup className="grid grid-cols-3 items-stretch  *:*:h-full mt-6">
+                    <FieldGroup className="grid grid-cols-3 *:*:h-full mt-6">
                         {filteredIssues.map((issue, key) => (
                             <Field key={key}>
                                 <IssueCard key={issue.id} issue={issue} onVerify={handleVerifyIssue} />

@@ -6,6 +6,7 @@ import { getIssues, saveUsers, getUsers } from "@/lib/storage.js"
 import { saveIssues } from "@/lib/storage.js"
 import useCurrentUser from "@/hooks/useCurrentUser"
 import useGeolocation from "@/hooks/useGeolocation.js"
+import { useNavigate } from "react-router-dom"
 
 const readFileAsDataUrl = (file) => {
     if (!file) return Promise.resolve(null);
@@ -20,6 +21,7 @@ const readFileAsDataUrl = (file) => {
 
 export default function ReportIssue() {
     const currentUser = useCurrentUser();
+    const navigate = useNavigate();
 
     const isSignedIn = Boolean(currentUser?.id);
     const [title, setTitle] = useState("");
@@ -97,6 +99,8 @@ export default function ReportIssue() {
             setDescription("");
             setLocation("");
             setPhoto(null);
+            navigate('/issues', { replace: true });
+
         } catch (error) {
             toast.error("Unable to save the photo", {
                 description: error instanceof Error ? error.message : "Please try again.",

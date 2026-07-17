@@ -8,7 +8,7 @@ function Home() {
   return (
     <>
       <HeroSection />
-      <div className="mt-20 pb-12">
+      {allIssues.length && <div className="mt-20 pb-12">
         <div className="flex justify-between">
           <span className="text-2xl font-medium">Recent reports</span>
           <Link to="/issues" className="flex items-center gap-2 text-md text-emerald-600 hover:underline">View all &rarr;</Link>
@@ -19,6 +19,7 @@ function Home() {
           ))}
         </div>
       </div>
+      }
     </>
   )
 }
