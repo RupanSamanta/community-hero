@@ -6,6 +6,7 @@ import IssuesPage from "./components/issues/IssuesPage"
 import Dashboard from "./components/dashboard/Dashboard"
 import Leaderboard from "./components/leaderboard/Leaderboard"
 import ReportIssue from "./components/report/ReportIssue"
+import IssueDetailsPage from "./components/issues/IssueDetailsPage"
 import { Toaster } from "@/components/ui/sonner"
 import Header from "./components/layout/Header"
 
@@ -20,6 +21,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/report" element={<ReportIssue />} />
+        <Route path="/issues/:id" element={<IssueDetailsPage />} />
         <Route path="/" element={<Navigate to="/home" replace />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

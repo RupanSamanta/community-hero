@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { MapPin, ShieldCheck, CheckCircle2 } from "lucide-react"
 import { toast } from "sonner"
+import { useNavigate } from "react-router-dom"
 
 import { CategoryBadge } from "./CategoryBadge"
 import { StatusBadge } from "./StatusBadge"
@@ -12,6 +13,7 @@ import useCurrentUser from "@/hooks/useCurrentUser"
 
 export default function IssueCard({ issue, onVerify }) {
     const currentUser = useCurrentUser();
+    const navigate = useNavigate();
     const { title, description, category, status, severity, location, upvotes, verifiedBy = [], image } = issue
     const verificationCount = issue.verificationCount ?? upvotes ?? 0;
     const hasVerified = Boolean(currentUser?.id && verifiedBy.includes(currentUser.id));
@@ -31,8 +33,12 @@ export default function IssueCard({ issue, onVerify }) {
         onVerify?.(issue.id);
     }
 
+    const handleOpenDetails = () => {
+        navigate(`/issues/${issue.id}`, { state: { issue } })
+    }
+
     return (
-        <Card className="w-full max-w-100 shadow-sm rounded-2xl p-0 border border-slate-200 hover:shadow-md cursor-pointer transition-shadow bg-white flex flex-col gap-0.5 justify-start">
+        <Card className="w-full max-w-100 shadow-sm rounded-2xl p-0 border border-slate-200 hover:shadow-md cursor-pointer transition-shadow bg-white flex flex-col gap-0.5 justify-start" onClick={handleOpenDetails}>
 
             <CardHeader className="p-4 pb-3 flex flex-row flex-wrap items-center gap-2 m-0">
                 <CategoryBadge category={category} />
@@ -78,7 +84,10 @@ export default function IssueCard({ issue, onVerify }) {
                             size="sm"
                             variant={hasVerified ? "secondary" : "outline"}
                             className="rounded-full px-3 py-1.5 text-[0.7rem] font-semibold"
-                            onClick={handleVerify}
+                            onClick={(event) => {
+                                event.stopPropagation()
+                                handleVerify()
+                            }}
                         >
                             {hasVerified ? (
                                 <CheckCircle2 className="w-3.5 h-3.5" />
