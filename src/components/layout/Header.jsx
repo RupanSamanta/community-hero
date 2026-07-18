@@ -1,6 +1,6 @@
 import { LogOut, MapPin } from "lucide-react"
 import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { clearCurrentUser } from "@/lib/storage";
 import Navbar from "@/components/layout/Navbar"
 import useCurrentUser from "@/hooks/useCurrentUser.js";
@@ -8,9 +8,11 @@ import useCurrentUser from "@/hooks/useCurrentUser.js";
 function Header() {
     const currentUser = useCurrentUser();
     const isSignedIn = Boolean(currentUser?.id);
+    const navigate = useNavigate();
 
     const handleLogout = () => {
         clearCurrentUser();
+        navigate('/auth');
     }
 
     return (

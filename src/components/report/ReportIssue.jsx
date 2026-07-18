@@ -64,7 +64,7 @@ export default function ReportIssue() {
                 id: crypto.randomUUID(),
                 title: title,
                 description: description,
-                category: "undefined",
+                category: "other",
                 status: "reported",
                 severity: "high",
                 location: location,
