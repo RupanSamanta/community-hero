@@ -1,8 +1,6 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { MapPin, ShieldCheck, CheckCircle2 } from "lucide-react"
-import { toast } from "sonner"
+import { MapPin, ShieldCheck } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 
 import { CategoryBadge } from "./CategoryBadge"
@@ -10,6 +8,8 @@ import { StatusBadge } from "./StatusBadge"
 
 import { SEVERITY_CONFIG } from "@/lib/constants"
 import useCurrentUser from "@/hooks/useCurrentUser"
+import VerifyButton from "./VerifyButton"
+import { verifyIssue } from "@/lib/issueVerification"
 
 export default function IssueCard({ issue, onVerify }) {
     const currentUser = useCurrentUser();
@@ -20,17 +20,16 @@ export default function IssueCard({ issue, onVerify }) {
     const previewImage = typeof image === "string" ? image : null;
 
     const handleVerify = () => {
-        if (!currentUser?.id) {
-            toast.error("Please sign in to verify this issue.");
-            return;
-        }
-
         if (hasVerified) {
-            toast.info("You have already verified this issue.");
             return;
         }
 
-        onVerify?.(issue.id);
+        if (onVerify) {
+            onVerify(issue.id);
+            return;
+        }
+
+        verifyIssue(issue.id);
     }
 
     const handleOpenDetails = () => {
@@ -79,23 +78,7 @@ export default function IssueCard({ issue, onVerify }) {
                     </div>
                     {
                         currentUser.id &&
-                        <Button
-                            type="button"
-                            size="sm"
-                            variant={hasVerified ? "secondary" : "outline"}
-                            className="rounded-full px-3 py-1.5 text-[0.7rem] font-semibold"
-                            onClick={(event) => {
-                                event.stopPropagation()
-                                handleVerify()
-                            }}
-                        >
-                            {hasVerified ? (
-                                <CheckCircle2 className="w-3.5 h-3.5" />
-                            ) : (
-                                <ShieldCheck className="w-3.5 h-3.5" />
-                            )}
-                            <span>{hasVerified ? "Verified" : "Verify"}</span>
-                        </Button>
+                        <VerifyButton hasVerified={hasVerified} handleVerify={handleVerify} />
                     }
                 </div>
             </CardFooter>

@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { SearchIcon } from "lucide-react";
-import { toast } from "sonner";
 import { Field, FieldGroup, FieldSet } from "../ui/field"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group";
 import { AppSelect } from "./AppSelect"
 import IssueCard from "./IssueCard";
 import { CATEGORY_CONFIG, STATUS_CONFIG, SEVERITY_CONFIG } from "@/lib/constants";
-import { getCurrentUser, getIssues, getUsers, saveIssues, saveUsers } from "@/lib/storage.js";
+import { getIssues } from "@/lib/storage.js";
+import { verifyIssue } from "@/lib/issueVerification";
 
 export default function IssuesPage() {
     const [selectedCategory, setSelectedCategory] = useState("All");
@@ -16,51 +16,12 @@ export default function IssuesPage() {
     const [allIssues, setAllIssues] = useState(() => getIssues());
 
     const handleVerifyIssue = (issueId) => {
-        const activeUser = getCurrentUser();
-
-        if (!activeUser?.id) {
-            toast.error("Please sign in to verify this issue.");
+        const updatedIssues = verifyIssue(issueId, { issues: allIssues });
+        if (!updatedIssues) {
             return;
         }
 
-        const updatedIssues = allIssues.map((issue) => {
-            if (issue.id !== issueId) {
-                return issue;
-            }
-
-            const verifiedBy = Array.isArray(issue.verifiedBy) ? issue.verifiedBy : [];
-            if (verifiedBy.includes(activeUser.id)) {
-                toast.info("You have already verified this issue.");
-                return issue;
-            }
-
-            const nextVerificationCount = (Number(issue.verificationCount ?? issue.upvotes ?? 0)) + 1;
-
-            return {
-                ...issue,
-                verificationCount: nextVerificationCount,
-                upvotes: nextVerificationCount,
-                verifiedBy: [...verifiedBy, activeUser.id],
-                status: issue.status === "reported" ? "verified" : issue.status,
-            };
-        });
-
-        saveIssues(updatedIssues);
         setAllIssues(updatedIssues);
-
-        const updatedUsers = getUsers().map((user) => {
-            if (user.id !== activeUser.id) {
-                return user;
-            }
-
-            return {
-                ...user,
-                verifications: (Number(user.verifications) || 0) + 1,
-            };
-        });
-
-        saveUsers(updatedUsers);
-        toast.success("Issue verified. Your community hero score has increased.");
     };
 
     const filteredIssues = allIssues.filter((issue) => {
