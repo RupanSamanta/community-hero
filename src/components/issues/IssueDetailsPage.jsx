@@ -31,14 +31,14 @@ function IssueDetailsPage() {
     const { id } = useParams();
     const location = useLocation();
     const currentUser = useCurrentUser();
-    
+
     const issue = useMemo(() => {
         return location.state?.issue ?? getIssues().find((item) => String(item.id) === String(id))
     }, [id, location.state?.issue]);
-    
+
     const verifiedBy = Array.isArray(issue?.verifiedBy) ? issue.verifiedBy : [];
     const hasVerified = Boolean(currentUser?.id && verifiedBy.includes(currentUser.id));
-    
+
     const handleVerify = () => {
         if (hasVerified) {
             return;
@@ -66,14 +66,50 @@ function IssueDetailsPage() {
     const previewImage = typeof issue.image === "string" ? issue.image : null;
     const severityClass = SEVERITY_CONFIG[issue.severity] || SEVERITY_CONFIG.low;
     const title = (issue.title || "Issue details") + " - Community Hero";
+    const summaryItems = [
+        {
+            label: "Reported by",
+            value: issue.reportedBy || "Community member",
+            icon: <User2 className="h-4 w-4" />,
+        },
+        {
+            label: "Status",
+            value: issue.status || "reported",
+        },
+        {
+            label: "Category",
+            value: issue.category || "other",
+        },
+        {
+            label: "Severity",
+            value: issue.severity || "other",
+        },
+    ];
+    
+    const timelineItems = [
+        {
+            title: "Reported",
+            detail: formatDate(issue.createdAt),
+            accent: "bg-emerald-500",
+        },
+        {
+            title: "Community verification",
+            detail: `${issue.verificationCount ?? issue.upvotes ?? 0} citizens confirmed this issue`,
+            accent: "bg-sky-500",
+        },
+        {
+            title: "Current status",
+            detail: issue.status || "reported",
+            accent: "bg-amber-500",
+        },
+    ];
 
     return (
         <>
             <title>{title}</title>
             <div className="pt-30 pb-12 px-6 max-w-5xl mx-auto space-y-6">
                 <Button variant="ghost" className="pl-0" onClick={() => navigate(-1)}>
-                    <ArrowLeft className="mr-2 h-4 w-4" />
-                    Back to issues
+                    <ArrowLeft className="mr-2 h-4 w-4" /> Back
                 </Button>
 
                 <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
@@ -121,29 +157,30 @@ function IssueDetailsPage() {
                         </Card>
                     </div>
 
-                    <Card className="border-slate-200/80 shadow-sm">
-                        <CardHeader>
+                    <Card className="border-slate-200/80 shadow-sm p-4">
+                        <CardContent className="space-y-2 text-sm text-slate-600 rounded-xl border border-slate-200 bg-slate-50 p-4">
                             <h2 className="text-lg font-semibold text-slate-900">Issue summary</h2>
-                        </CardHeader>
-                        <CardContent className="space-y-4 text-sm text-slate-600">
-                            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Reported by</p>
-                                <div className="mt-2 flex items-center gap-2 text-slate-900">
-                                    <User2 className="h-4 w-4" />
-                                    <span>{issue.reportedBy || "Community member"}</span>
-                                </div>
+                            <div className="space-y-3">
+                                {summaryItems.map((item) => (
+                                    <div key={item.label} className="grid grid-cols-2 items-center">
+                                        <p className="text-xs uppercase text-slate-400">{item.label}</p>
+                                        <p className="font-medium capitalize text-slate-900">{item.value}</p>
+                                    </div>
+                                ))}
                             </div>
-                            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Status</p>
-                                <p className="mt-2 font-medium capitalize text-slate-900">{issue.status || "reported"}</p>
-                            </div>
-                            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Category</p>
-                                <p className="mt-2 font-medium capitalize text-slate-900">{issue.category || "other"}</p>
-                            </div>
-                            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Severity</p>
-                                <p className="mt-2 font-medium capitalize text-slate-900">{issue.severity || "other"}</p>
+                        </CardContent>
+                        <CardContent>
+                            <div className="rounded-xl border border-slate-200 bg-white p-4">
+                                <h3 className="text-sm font-semibold text-slate-900">Timeline</h3>
+                                <ol className="mt-4 space-y-3 border-l border-slate-200 pl-4">
+                                    {timelineItems.map((item) => (
+                                        <li key={item.title} className="relative">
+                                            <span className={`absolute left-[-1.35rem] top-1 h-2.5 w-2.5 rounded-full ${item.accent}`} />
+                                            <p className="text-sm font-medium text-slate-900">{item.title}</p>
+                                            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">{item.detail}</p>
+                                        </li>
+                                    ))}
+                                </ol>
                             </div>
                         </CardContent>
                     </Card>
