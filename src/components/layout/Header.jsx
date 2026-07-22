@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { clearCurrentUser } from "@/lib/storage";
 import Navbar from "@/components/layout/Navbar"
 import useCurrentUser from "@/hooks/useCurrentUser.js";
+import { Avatar, AvatarFallback } from "../ui/avatar";
 
 function Header() {
     const currentUser = useCurrentUser();
@@ -32,9 +33,11 @@ function Header() {
             <div>
                 {isSignedIn ? (
                     <div className="flex items-center gap-3">
-                        <span className="text-sm font-medium text-slate-700">
-                            {currentUser.name}
-                        </span>
+                        <Avatar size="md">
+                            <AvatarFallback>
+                                {currentUser.name[0]}
+                            </AvatarFallback>
+                        </Avatar>
                         <Button
                             type="button"
                             size="icon"
