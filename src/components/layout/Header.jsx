@@ -31,7 +31,7 @@ function Header() {
             </Link>
             <Navbar />
             {isSignedIn ? (
-                <Profile name={currentUser.name} handleLogout={handleLogout} />
+                <Profile user={{name: currentUser.name, email: currentUser.email}} handleLogout={handleLogout} />
             ) : (
                 <Link to="/auth">
                     <Button className="bg-emerald-600 hover:bg-emerald-700 rounded-md text-[0.75rem]">Sign In</Button>
