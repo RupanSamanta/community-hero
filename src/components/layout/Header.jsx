@@ -1,10 +1,10 @@
-import { LogOut, MapPin } from "lucide-react"
+import { MapPin } from "lucide-react"
 import { Button } from "../ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { clearCurrentUser } from "@/lib/storage";
 import Navbar from "@/components/layout/Navbar"
 import useCurrentUser from "@/hooks/useCurrentUser.js";
-import { Avatar, AvatarFallback } from "../ui/avatar";
+import Profile from "./Profile";
 
 function Header() {
     const currentUser = useCurrentUser();
@@ -30,31 +30,13 @@ function Header() {
                 </div>
             </Link>
             <Navbar />
-            <div>
-                {isSignedIn ? (
-                    <div className="flex items-center gap-3">
-                        <Avatar size="md">
-                            <AvatarFallback>
-                                {currentUser.name[0]}
-                            </AvatarFallback>
-                        </Avatar>
-                        <Button
-                            type="button"
-                            size="icon"
-                            variant="destructive"
-                            className="rounded-md text-[0.75rem] border-red-800 bg-red-600 hover:bg-red-700 text-white"
-                            onClick={handleLogout}
-                            title="Log Out"
-                        >
-                            <LogOut />
-                        </Button>
-                    </div>
-                ) : (
-                    <Link to="/auth">
-                        <Button className="bg-emerald-600 hover:bg-emerald-700 rounded-md text-[0.75rem]">Sign In</Button>
-                    </Link>
-                )}
-            </div>
+            {isSignedIn ? (
+                <Profile name={currentUser.name} handleLogout={handleLogout} />
+            ) : (
+                <Link to="/auth">
+                    <Button className="bg-emerald-600 hover:bg-emerald-700 rounded-md text-[0.75rem]">Sign In</Button>
+                </Link>
+            )}
         </header>
     )
 }
