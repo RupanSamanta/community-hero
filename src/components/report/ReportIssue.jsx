@@ -71,7 +71,7 @@ export default function ReportIssue() {
                 upvotes: 0,
                 verificationCount: 0,
                 verifiedBy: [],
-                reportedBy: currentUser.id,
+                reportedBy: { id: currentUser.id, name: currentUser.name},
                 image: imageDataUrl,
                 createdAt: new Date().toISOString()
             };

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SearchIcon } from "lucide-react";
+import { NotebookTextIcon, PlusIcon, SearchIcon } from "lucide-react";
 import { Field, FieldGroup, FieldSet } from "../ui/field"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group";
 import { AppSelect } from "./AppSelect"
@@ -7,6 +7,8 @@ import IssueCard from "./IssueCard";
 import { CATEGORY_CONFIG, STATUS_CONFIG, SEVERITY_CONFIG } from "@/lib/constants";
 import { getIssues } from "@/lib/storage.js";
 import { verifyIssue } from "@/lib/issueVerification";
+import { Link } from "react-router-dom";
+import { Button } from "../ui/button";
 
 export default function IssuesPage() {
     const [selectedCategory, setSelectedCategory] = useState("All");
@@ -30,7 +32,7 @@ export default function IssuesPage() {
         const matchesSeverity = selectedSeverity.includes("All") || issue.severity === selectedSeverity.toLowerCase();
 
         const matchesSearch = issue.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            issue.description.toLowerCase().includes(searchQuery.toLowerCase()) || 
+            issue.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
             issue.location.toLowerCase().includes(searchQuery.toLowerCase());
 
         return matchesCategory && matchesStatus && matchesSeverity && matchesSearch;
@@ -42,11 +44,19 @@ export default function IssuesPage() {
             <title>Issues - Community Hero</title>
 
             <div className="pt-30 pb-12">
-                <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-slate-900">Issues</h1>
-                    <p className="text-gray-500 text-sm mt-1">
-                        <span>{filteredIssues.length}</span> of <span>{allIssues.length}</span> reports
-                    </p>
+                <div className="w-full flex justify-between">
+                    <div>
+                        <h1 className="text-3xl font-bold tracking-tight text-slate-900">Issues</h1>
+                        <p className="text-gray-500 text-sm mt-1">
+                            <span>{filteredIssues.length}</span> of <span>{allIssues.length}</span> reports
+                        </p>
+                    </div>
+                    <div className="flex gap-4 items-center">
+                        <Link to="/report">
+                            <Button size="lg" variant="outline"><PlusIcon /> Report Issue</Button>
+                        </Link>
+                        <Button size="lg" variant="outline" disabled><NotebookTextIcon/> My Reports</Button>
+                    </div>
                 </div>
                 <FieldSet>
                     <FieldGroup className="grid grid-cols-4 mt-6 *:*:p-3 *:*:py-4.5 *:*:border-2 *:*:focus-visible:border-emerald-600 *:*:focus:border-emerald-600 *:*:shadow-sm">

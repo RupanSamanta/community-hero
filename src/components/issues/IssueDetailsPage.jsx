@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { ArrowLeft, CalendarDays, MapPin, ShieldCheck, User2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -72,7 +72,7 @@ function IssueDetailsPage() {
     const summaryItems = [
         {
             label: "Reported by",
-            value: issue.reportedBy || "Community member",
+            value: issue.reportedBy.name || "Community member",
             icon: <User2 className="h-4 w-4" />,
         },
         {
