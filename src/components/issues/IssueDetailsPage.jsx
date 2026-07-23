@@ -144,9 +144,7 @@ function IssueDetailsPage() {
                             <CardFooter className="flex justify-between">
                                 <div className="flex items-center gap-2 text-slate-500">
                                     <ShieldCheck className="h-4 w-4 text-slate-500" />
-                                    <span>Verified by {issue.verificationCount ?? issue.upvotes ?? 0} citizens
-
-                                    </span>
+                                    <span>Verified by {issue.verificationCount ?? issue.upvotes ?? 0} citizens</span>
                                 </div>
                                 <VerifyButton hasVerified={hasVerified} handleVerify={handleVerify} />
                             </CardFooter>

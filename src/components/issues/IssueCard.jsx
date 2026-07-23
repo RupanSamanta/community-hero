@@ -21,11 +21,10 @@ export default function IssueCard({ issue, onVerify, hideVerifyButton=false }) {
 
     const handleVerify = () => {
         if (onVerify) {
-            onVerify(issue.id);
-            return;
+            return onVerify(issue.id);
         }
 
-        void verifyIssue(issue.id);
+        return verifyIssue(issue.id);
     }
 
     const handleOpenDetails = () => {

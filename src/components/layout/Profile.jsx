@@ -18,7 +18,7 @@ function Profile({ user, handleLogout }) {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="rounded-full p-0">
           <Avatar className="size-8">
-            <AvatarImage src={UserIcon} />
+            {/* <AvatarImage src={UserIcon} /> */}
             <AvatarFallback>{user.name?.[0] ?? "U"}</AvatarFallback>
           </Avatar>
         </Button>
