@@ -1,4 +1,4 @@
-import { useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { ArrowLeft, CalendarDays, MapPin, ShieldCheck, User2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -28,20 +28,27 @@ function IssueDetailsPage() {
     const { id } = useParams();
     const location = useLocation();
     const currentUser = useCurrentUser();
-
-    const issue = useMemo(() => {
+    const [issue, setIssue] = useState(() => {
         return location.state?.issue ?? getIssues().find((item) => String(item.id) === String(id))
+    });
+
+    useEffect(() => {
+        setIssue(location.state?.issue ?? getIssues().find((item) => String(item.id) === String(id)));
     }, [id, location.state?.issue]);
 
     const verifiedBy = Array.isArray(issue?.verifiedBy) ? issue.verifiedBy : [];
     const hasVerified = Boolean(currentUser?.id && verifiedBy.includes(currentUser.id));
 
-    const handleVerify = () => {
-        if (hasVerified) {
+    const handleVerify = async () => {
+        const updatedIssues = await verifyIssue(issue.id);
+        if (!updatedIssues) {
             return;
         }
 
-        verifyIssue(issue.id);
+        const nextIssue = updatedIssues.find((item) => String(item.id) === String(issue.id));
+        if (nextIssue) {
+            setIssue(nextIssue);
+        }
     }
 
     if (!issue) {

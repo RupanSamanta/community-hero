@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import UserIcon from "@/assets/icons/user.png"
 import { LayoutDashboard, ListChecksIcon, LogOut, MailIcon, NotepadTextIcon, Settings, TrophyIcon, User2 } from "lucide-react"
+import { Link } from "react-router-dom"
 
 function Profile({ user, handleLogout }) {
   return (
@@ -36,15 +37,15 @@ function Profile({ user, handleLogout }) {
           <DropdownMenuItem disabled>
             <NotepadTextIcon /> My Reports
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <ListChecksIcon /> Issues
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <LayoutDashboard /> Dashboard
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <TrophyIcon /> Leaderboard
-          </DropdownMenuItem>
+          <Link to="/issues">
+            <DropdownMenuItem><ListChecksIcon /> Issues</DropdownMenuItem>
+          </Link>
+          <Link to="/dashboard">
+            <DropdownMenuItem><LayoutDashboard /> Dashboard</DropdownMenuItem>
+          </Link>
+          <Link to="/leaderboard">
+            <DropdownMenuItem><TrophyIcon /> Leaderboard</DropdownMenuItem>
+          </Link>
           <DropdownMenuItem disabled>
             <Settings /> Settings
           </DropdownMenuItem>

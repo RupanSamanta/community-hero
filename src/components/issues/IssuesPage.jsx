@@ -15,8 +15,8 @@ export default function IssuesPage() {
     const [searchQuery, setSearchQuery] = useState("");
     const [allIssues, setAllIssues] = useState(() => getIssues());
 
-    const handleVerifyIssue = (issueId) => {
-        const updatedIssues = verifyIssue(issueId, { issues: allIssues });
+    const handleVerifyIssue = async (issueId) => {
+        const updatedIssues = await verifyIssue(issueId, { issues: allIssues });
         if (!updatedIssues) {
             return;
         }
@@ -30,9 +30,10 @@ export default function IssuesPage() {
         const matchesSeverity = selectedSeverity.includes("All") || issue.severity === selectedSeverity.toLowerCase();
 
         const matchesSearch = issue.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            issue.description.toLowerCase().includes(searchQuery.toLowerCase())
+            issue.description.toLowerCase().includes(searchQuery.toLowerCase()) || 
+            issue.location.toLowerCase().includes(searchQuery.toLowerCase());
 
-        return matchesCategory && matchesStatus && matchesSeverity && matchesSearch
+        return matchesCategory && matchesStatus && matchesSeverity && matchesSearch;
     });
 
 

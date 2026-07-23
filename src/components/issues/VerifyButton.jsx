@@ -18,7 +18,7 @@ function VerifyButton({ hasVerified, handleVerify }) {
             ) : (
                 <ShieldCheck className="w-3.5 h-3.5" />
             )}
-            <span>{hasVerified ? "Verified" : "Verify"}</span>
+            <span>{hasVerified ? "Unverify" : "Verify"}</span>
         </Button>
     )
 }

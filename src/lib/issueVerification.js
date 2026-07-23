@@ -14,9 +14,51 @@ export function verifyIssue(issueId, { currentUser = getCurrentUser(), issues = 
     }
 
     const verifiedBy = Array.isArray(targetIssue.verifiedBy) ? targetIssue.verifiedBy : [];
-    if (verifiedBy.includes(currentUser.id)) {
-        toast.info("You have already verified this issue.");
-        return null;
+    const alreadyVerified = verifiedBy.some((userId) => String(userId) === String(currentUser.id));
+
+    if (alreadyVerified) {
+        const shouldRemoveVerification = window.confirm("Remove your verification from this issue?");
+        if (!shouldRemoveVerification) {
+            return null;
+        }
+
+        const nextVerificationCount = Math.max(
+            Number(targetIssue.verificationCount ?? targetIssue.upvotes ?? 0) - 1,
+            0,
+        );
+        const nextVerifiedBy = verifiedBy.filter((userId) => String(userId) !== String(currentUser.id));
+
+        const updatedIssues = issues.map((issue) => {
+            if (String(issue.id) !== String(issueId)) {
+                return issue;
+            }
+
+            return {
+                ...issue,
+                verificationCount: nextVerificationCount,
+                upvotes: nextVerificationCount,
+                verifiedBy: nextVerifiedBy,
+                status: nextVerificationCount > 0 ? issue.status : "reported",
+            };
+        });
+
+        saveIssues(updatedIssues);
+
+        const updatedUsers = getUsers().map((user) => {
+            if (user.id !== currentUser.id) {
+                return user;
+            }
+
+            return {
+                ...user,
+                verifications: Math.max((Number(user.verifications) || 0) - 1, 0),
+            };
+        });
+
+        saveUsers(updatedUsers);
+        toast.info("Your verification has been removed.");
+
+        return updatedIssues;
     }
 
     const nextVerificationCount = (Number(targetIssue.verificationCount ?? targetIssue.upvotes ?? 0)) + 1;

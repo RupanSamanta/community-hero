@@ -11,7 +11,7 @@ import useCurrentUser from "@/hooks/useCurrentUser"
 import VerifyButton from "./VerifyButton"
 import { verifyIssue } from "@/lib/issueVerification"
 
-export default function IssueCard({ issue, onVerify }) {
+export default function IssueCard({ issue, onVerify, hideVerifyButton=false }) {
     const currentUser = useCurrentUser();
     const navigate = useNavigate();
     const { title, description, category, status, severity, location, upvotes, verifiedBy = [], image } = issue
@@ -20,16 +20,12 @@ export default function IssueCard({ issue, onVerify }) {
     const previewImage = typeof image === "string" ? image : null;
 
     const handleVerify = () => {
-        if (hasVerified) {
-            return;
-        }
-
         if (onVerify) {
             onVerify(issue.id);
             return;
         }
 
-        verifyIssue(issue.id);
+        void verifyIssue(issue.id);
     }
 
     const handleOpenDetails = () => {
@@ -77,7 +73,7 @@ export default function IssueCard({ issue, onVerify }) {
                         <span>{verificationCount}</span>
                     </div>
                     {
-                        currentUser.id &&
+                        currentUser.id && !hideVerifyButton &&
                         <VerifyButton hasVerified={hasVerified} handleVerify={handleVerify} />
                     }
                 </div>
