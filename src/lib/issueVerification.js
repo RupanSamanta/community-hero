@@ -1,7 +1,35 @@
 import { toast } from "sonner";
 import { getCurrentUser, getIssues, getUsers, saveIssues, saveUsers } from "./storage.js";
 
-export function verifyIssue(issueId, { currentUser = getCurrentUser(), issues = getIssues() } = {}) {
+function confirmIssueUnverify() {
+    return new Promise((resolve) => {
+        let settled = false;
+
+        const finalize = (value) => {
+            if (settled) {
+                return;
+            }
+
+            settled = true;
+            resolve(value);
+        };
+
+        const toastId = toast("Remove your verification from this issue?", {
+            duration: Infinity,
+            dismissible: true,
+            action: {
+                label: "Confirm",
+                onClick: () => {
+                    toast.dismiss(toastId);
+                    finalize(true);
+                },
+            },
+            onDismiss: () => finalize(false),
+        });
+    });
+}
+
+export async function verifyIssue(issueId, { currentUser = getCurrentUser(), issues = getIssues() } = {}) {
     if (!currentUser?.id) {
         toast.error("Please sign in to verify this issue.");
         return null;
@@ -17,7 +45,7 @@ export function verifyIssue(issueId, { currentUser = getCurrentUser(), issues = 
     const alreadyVerified = verifiedBy.some((userId) => String(userId) === String(currentUser.id));
 
     if (alreadyVerified) {
-        const shouldRemoveVerification = window.confirm("Remove your verification from this issue?");
+        const shouldRemoveVerification = await confirmIssueUnverify();
         if (!shouldRemoveVerification) {
             return null;
         }
