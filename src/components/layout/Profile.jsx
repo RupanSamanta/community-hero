@@ -6,9 +6,8 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import UserIcon from "@/assets/icons/user.png"
 import { LayoutDashboard, ListChecksIcon, LogOut, MailIcon, NotepadTextIcon, Settings, TrophyIcon, User2 } from "lucide-react"
 import { Link } from "react-router-dom"
 

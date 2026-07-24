@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { NotebookTextIcon, PlusIcon, SearchIcon } from "lucide-react";
+import { useState } from "react"
+import { NotebookTextIcon, PlusIcon, SearchIcon } from "lucide-react"
 import { Field, FieldGroup, FieldSet } from "../ui/field"
-import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group"
 import { AppSelect } from "./AppSelect"
-import IssueCard from "./IssueCard";
-import { CATEGORY_CONFIG, STATUS_CONFIG, SEVERITY_CONFIG } from "@/lib/constants";
-import { getIssues } from "@/lib/storage.js";
-import { verifyIssue } from "@/lib/issueVerification";
-import { Link } from "react-router-dom";
-import { Button } from "../ui/button";
+import IssueCard from "./IssueCard"
+import { CATEGORY_CONFIG, STATUS_CONFIG, SEVERITY_CONFIG } from "@/lib/constants"
+import { getIssues } from "@/lib/storage.js"
+import { verifyIssue } from "@/lib/issueVerification"
+import { Link } from "react-router-dom"
+import { Button } from "../ui/button"
 
 export default function IssuesPage() {
     const [selectedCategory, setSelectedCategory] = useState("All");
@@ -51,7 +51,7 @@ export default function IssuesPage() {
                             <span>{filteredIssues.length}</span> of <span>{allIssues.length}</span> reports
                         </p>
                     </div>
-                    <div className="flex gap-4 items-center">
+                    <div className="grid grid-cols-2 gap-3">
                         <Link to="/report">
                             <Button size="lg" variant="outline"><PlusIcon /> Report Issue</Button>
                         </Link>
